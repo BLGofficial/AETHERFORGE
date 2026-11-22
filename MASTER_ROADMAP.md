@@ -1,0 +1,42 @@
+# AETHER FORGE — Master Implementation Roadmap
+
+**Version:** 1.0.0  
+**Date:** 2026-11-23  
+**Current Milestone:** Phases 00–12 Complete (`v1.0.0-rc1` Verified); Ready for Phase 13 Native Toolchain & Cloud Staging Provisioning  
+**Cross-References:** [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) · [SCOPE.md](./SCOPE.md) · [backlog/issues.md](./backlog/issues.md) · [RELEASE-CANDIDATE-v1.0.0-rc1.md](./RELEASE-CANDIDATE-v1.0.0-rc1.md)
+
+---
+
+## 1. Completed Foundation & Vertical Slice Phases (Phases 00–12)
+
+| Phase | Milestone | Key Deliverables | Verification Evidence | Status |
+|---|---|---|---|---|
+| **PHASE 00** | Foundation & Actionable Baseline | `README.md`, `GOVERNANCE.md`, `REFERENCE-BOOK.md`, `ADR-0001..0010`, threat model, data classification, backlog | 18 baseline files SHA-256 verified | **COMPLETE** |
+| **PHASE 01** | Repository Bootstrap & Contracts | `@aether-forge/contracts` (`schemaVersion: "1.0.0"`), JSON Schema, OpenAPI 3.1, additive/breaking tests | `contracts/tests/compatibility/compatibility.test.ts` (`7/7` pass) | **COMPLETE** |
+| **PHASE 02** | Identity, Tenancy & Governance | OIDC seam, tenant-before-data 404 isolation, idempotency store, `AppendOnlyAuditStore`, approval drift invalidation, Emergency Stop | `tests/security/src/phase02-governance.test.ts` (`6/6` pass) | **COMPLETE** |
+| **PHASE 03** | Policy-as-Code & Approvals | Versioned OPA Rego v1 bundle (`governance.rego`), `OpaPolicyDecisionPoint`, UI-safe explanations, fail-closed & path-scope binding | `tests/security/src/phase03-policy-approvals.test.ts` (`4/4` pass) | **COMPLETE** |
+| **PHASE 04** | Durable Workflow & First Vertical Slice | `DurableTemporalOrchestrator`, mid-wait restart/replay, activity retry, 4-screen Web Control Plane + OpenAPI 3.1 REST server | `tests/e2e/src/phase04-vertical-slice.test.ts` (`3/3` pass) + `api-boundaries.test.ts` (`2/2` pass) | **COMPLETE** |
+| **PHASE 05** | Provider Gateway & Bounded Planner | `ProviderGatewayService`, prompt hash registry, pre-egress redaction fence, quotas, `BoundedExecutionPlanner` evaluation fixtures | `tests/security/src/phase05-provider-planner.test.ts` (`4/4` pass) | **COMPLETE** |
+| **PHASE 06** | Windows Worker Trust Boundary | `.NET 8` skeleton + `@aether-forge/windows-host` & `@aether-forge/filesystem` (DPAPI, mTLS, signed manifests, traversal/NTFS junction/TOCTOU defense) | `tests/security/src/phase06-windows-worker.test.ts` (`3/3` pass) | **COMPLETE** |
+| **PHASE 07** | Knowledge & Evidence Substrate | `EvidenceAddressableKnowledgeService`, Postgres 16 + `pgvector` SQL migration, immutable object store, provenance citations, deletion & quarantine | `tests/security/src/phase07-knowledge-substrate.test.ts` (`3/3` pass) | **COMPLETE** |
+| **PHASE 08** | Audio/DSP Offline Vertical Slice | Rust crate (`workers/audio-engine`) + `@aether-forge/audio-engine` golden PCM16 WAV inspect & `<0.01 dB` gain normalization | `tests/security/src/phase08-audio-engine.test.ts` (`2/2` pass) | **COMPLETE** |
+| **PHASE 09** | FL Studio 2025 Qualification | Discovery of FL Studio 2025 (`25.1.6.4997`), `FlStudio2025Adapter` (`inspect` & `non_destructive_edit`), factory `.flp` (`NewStuff.flp`, `Breakbeat.flp`) verification | `tests/security/src/phase09-fl-studio-2025.test.ts` (`4/4` pass) | **COMPLETE** |
+| **PHASE 10** | VST3 Product Boundary | Isolated C++20 real-time core (`AetherForgeProcessor.h/.cpp`), CMake build, static zero-I/O audit, 16-byte POD state round-trip, shared DSP golden vectors | `tests/security/src/phase10-vst3-boundary.test.ts` (`3/3` pass; native `.vst3` marked blocked on SDKs) | **COMPLETE** |
+| **PHASE 11** | Security, Observability & Operations | W3C 5-boundary trace correlation (`@aether-forge/observability`), CycloneDX 1.5 SBOM, SLSA v1.0 provenance, signed rollback (`@aether-forge/artifact-registry`), runbooks, 6 abuse cases | `tests/security/src/phase11-observability-abuse.test.ts` (`3/3` pass) | **COMPLETE** |
+| **PHASE 12** | Integration & Release Candidate | Full vertical slice E2E test, latency benchmark, signed `v1.0.0-rc1` bundle (`artifacts/release-v1.0.0-rc1/`), `CHANGELOG.md`, `RELEASE-CANDIDATE-v1.0.0-rc1.md`, Git repo & live dev server | `phase12-release-candidate.test.ts` (`1/1` pass) + `phase12-performance.test.ts` (`2/2` pass) | **COMPLETE** |
+
+---
+
+## 2. Next Engineering Phases (Post-`v1.0.0-rc1` Production Progression)
+
+### PHASE 13 — Native Toolchain Provisioning & Binary Compilation (RECOMMENDED NEXT PHASE)
+1. **AF-1301 (Rust Native Audio Sidecar):** Install `rustup` (`stable-x86_64-pc-windows-msvc`) and run `cargo test` & `cargo build --release` on [workers/audio-engine/Cargo.toml](./workers/audio-engine/Cargo.toml).
+2. **AF-1302 (.NET 8 Windows Worker Service & MSIX):** Install `.NET 8 SDK` (`8.0.x`) and build [workers/windows-host/AetherForge.WindowsWorker.csproj](./workers/windows-host/AetherForge.WindowsWorker.csproj) with Authenticode signing.
+3. **AF-1303 (C++20 / JUCE / VST3 Native Plugin & `pluginval`):** Provision MSVC BuildTools (`cl.exe`), `JUCE_SOURCE_DIR` (JUCE 8.x), `VST3_SDK_DIR` (Steinberg VST3 SDK), and `pluginval.exe`; compile `AetherForgeProcessor.vst3` via CMake (`C:\Program Files\CMake\bin\cmake.exe`) and record strictness-level-10 `pluginval` pass.
+
+### PHASE 14 — Cloud Staging Infrastructure & Live Provider Integration
+1. **AF-1401 (Staging Database & Temporal Cluster):** Apply [infra/terraform/environments/staging/main.tf](./infra/terraform/environments/staging/main.tf), run [0001_knowledge_pgvector.sql](./services/knowledge/migrations/0001_knowledge_pgvector.sql) on managed PostgreSQL 16, and connect `@aether-forge/orchestration` to Temporal Cloud namespace `aetherforge-governed-orchestration`.
+2. **AF-1402 (Server-Side Provider Adapter Activation):** Provision approved LLM provider credentials in Cloud Secret Manager and enable live provider adapters behind `@aether-forge/provider-gateway`'s pre-egress redaction and budget fence.
+
+### PHASE 15 — Release Manager Production Promotion (`v1.0.0`)
+1. **AF-1501:** Execute Stage 1 canary soak, obtain human **Release Manager** dual-control sign-off (`release_publish`), and promote `v1.0.0-rc1` to production `v1.0.0`.

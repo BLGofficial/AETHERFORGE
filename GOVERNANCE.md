@@ -1,8 +1,8 @@
 # AETHER FORGE — Governance Charter
 
 **Version:** 1.0.0  
-**Status:** Mandatory Baseline (Phase 00)  
-**Cross-References:** [README.md](./README.md) · [REFERENCE-BOOK.md](./REFERENCE-BOOK.md) · [ADR-0002](./docs/adr/0002-controlled-autonomy-policy-engine.md) · [Data Classification](./docs/security/data-classification.md) · [Threat Model](./docs/security/threat-model.md)
+**Status:** Mandatory Baseline (Phase 00–12 Verified)  
+**Cross-References:** [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) · [SYSTEM_VISION.md](./SYSTEM_VISION.md) · [SCOPE.md](./SCOPE.md) · [ENGINEERING_PRINCIPLES.md](./ENGINEERING_PRINCIPLES.md) · [MASTER_ROADMAP.md](./MASTER_ROADMAP.md) · [REFERENCE_BOOK.md](./REFERENCE_BOOK.md) · [README.md](./README.md) · [REFERENCE-BOOK.md](./REFERENCE-BOOK.md) · [ADR-0002](./docs/adr/0002-controlled-autonomy-policy-engine.md) · [Data Classification](./docs/security/data-classification.md) · [Threat Model](./docs/security/threat-model.md)
 
 ---
 
