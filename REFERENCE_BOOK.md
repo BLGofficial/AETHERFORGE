@@ -4,7 +4,7 @@
 **Date:** 2026-11-23  
 **Status:** Canonical Living Engineering Reference (`v1.0.0-rc1`)  
 **Companion Index:** [REFERENCE-BOOK.md](./REFERENCE-BOOK.md) (synchronized Blueprint v1.0 index)  
-**Cross-References:** [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) · [SYSTEM_VISION.md](./SYSTEM_VISION.md) · [SCOPE.md](./SCOPE.md) · [ENGINEERING_PRINCIPLES.md](./ENGINEERING_PRINCIPLES.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [MASTER_ROADMAP.md](./MASTER_ROADMAP.md)
+**Cross-References:** [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) · [SYSTEM_VISION.md](./SYSTEM_VISION.md) · [SCOPE.md](./SCOPE.md) · [ENGINEERING_PRINCIPLES.md](./ENGINEERING_PRINCIPLES.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [MASTER_ROADMAP.md](./MASTER_ROADMAP.md) · [PRD.md](./PRD.md) · [SRS.md](./SRS.md) · [CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md) · [REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md) · [ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md)
 
 ---
 
@@ -60,3 +60,13 @@ Direct empirical inspection of the Windows 11 workstation (`C:\Users\blago\Deskt
 3. **INV-03 ([ADR-0002](./docs/adr/0002-controlled-autonomy-policy-engine.md)):** No approved action survives a `planHash` or `policyVersion` change.
 4. **INV-04 ([ADR-0009](./docs/adr/0009-fl-studio-2025-qualification-layer.md)):** No claim of DAW capability without empirical qualification evidence for its exact version and capability tier ([docs/daws/fl-studio-2025-qualification.md](./docs/daws/fl-studio-2025-qualification.md)).
 5. **INV-05 ([ADR-0010](./docs/adr/0010-release-integrity.md)):** No release artifact without CycloneDX SBOM, cryptographic signature, SLSA v1.0 provenance attestation, and passing test evidence ([RELEASE-CANDIDATE-v1.0.0-rc1.md](./RELEASE-CANDIDATE-v1.0.0-rc1.md)).
+
+---
+
+## 4. Product & Requirements Engineering Baseline Index
+
+- **Product Requirements Document ([PRD.md](./PRD.md)):** Product capabilities, 5 personas (`Owner`, `Builder`, `Reviewer`, `ReleaseManager`, `WorkerOperator`), 6 project categories (`CAT-01`..`CAT-06`), 6 engineering workflows (`WF-01`..`WF-06`), and 4 deterministic agent autonomy levels (`Level 0`..`Level 3`).
+- **Software Requirements Specification ([SRS.md](./SRS.md)):** Trust boundaries (`TB-1`..`TB-7`), operational constraints (`CON-01`..`CON-04`), 20 measurable functional requirements (`REQ-F-0001`..`REQ-F-0020`), and 14 measurable non-functional requirements (`REQ-NF-0001`..`REQ-NF-0014`).
+- **Capability Matrix ([CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md)):** 4-column matrix mapping Native Platform Capabilities, External Tool Capabilities, Human-Approval-Gated Capabilities, and Unsupported/Blocked Capabilities across all 11 capability areas.
+- **Requirements Traceability Matrix ([REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md)):** 100% bidirectional traceability mapping `REQ-F-0001..0020` and `REQ-NF-0001..0014` to governing ADRs/invariants, implementing packages/files, Zod contract schemas, and automated test suites.
+- **Acceptance Criteria Ledger ([ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md)):** Given/When/Then acceptance criteria (`AC-F-0001`..`AC-F-0020`, `AC-NF-0001`..`AC-NF-0014`) verified across `17` test suites (`52/52` passing tests).
