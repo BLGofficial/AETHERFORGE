@@ -4,7 +4,7 @@
 **Date:** 2026-11-23  
 **Status:** Canonical Living Engineering Reference (`v1.0.0-rc1`)  
 **Companion Index:** [REFERENCE-BOOK.md](./REFERENCE-BOOK.md) (synchronized Blueprint v1.0 index)  
-**Cross-References:** [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) · [SYSTEM_VISION.md](./SYSTEM_VISION.md) · [SCOPE.md](./SCOPE.md) · [ENGINEERING_PRINCIPLES.md](./ENGINEERING_PRINCIPLES.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [MASTER_ROADMAP.md](./MASTER_ROADMAP.md) · [PRD.md](./PRD.md) · [SRS.md](./SRS.md) · [CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md) · [REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md) · [ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md) · [TECHNICAL_RESEARCH.md](./TECHNICAL_RESEARCH.md) · [TECHNOLOGY_COMPARISON.md](./TECHNOLOGY_COMPARISON.md) · [DEPENDENCY_REGISTER.md](./DEPENDENCY_REGISTER.md) · [LICENSING_REVIEW.md](./LICENSING_REVIEW.md) · [TECHNOLOGY_DECISIONS.md](./TECHNOLOGY_DECISIONS.md)
+**Cross-References:** [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) · [SYSTEM_VISION.md](./SYSTEM_VISION.md) · [SCOPE.md](./SCOPE.md) · [ENGINEERING_PRINCIPLES.md](./ENGINEERING_PRINCIPLES.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [MASTER_ROADMAP.md](./MASTER_ROADMAP.md) · [PRD.md](./PRD.md) · [SRS.md](./SRS.md) · [CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md) · [REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md) · [ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md) · [TECHNICAL_RESEARCH.md](./TECHNICAL_RESEARCH.md) · [TECHNOLOGY_COMPARISON.md](./TECHNOLOGY_COMPARISON.md) · [DEPENDENCY_REGISTER.md](./DEPENDENCY_REGISTER.md) · [LICENSING_REVIEW.md](./LICENSING_REVIEW.md) · [TECHNOLOGY_DECISIONS.md](./TECHNOLOGY_DECISIONS.md) · [MASTER_ARCHITECTURE.md](./MASTER_ARCHITECTURE.md) · [MODULE_CATALOG.md](./MODULE_CATALOG.md) · [SYSTEM_DIAGRAMS.md](./SYSTEM_DIAGRAMS.md) · [ARCHITECTURE_DECISION_RECORDS/README.md](./ARCHITECTURE_DECISION_RECORDS/README.md) · [INTERFACE_CONTRACTS/README.md](./INTERFACE_CONTRACTS/README.md)
 
 ---
 
@@ -80,3 +80,13 @@ Direct empirical inspection of the Windows 11 workstation (`C:\Users\blago\Deskt
 - **Dependency & Toolchain Register ([DEPENDENCY_REGISTER.md](./DEPENDENCY_REGISTER.md)):** Complete inventory of direct NPM dependencies (`zod`, `typescript`, `vitest`, `@types/node`), Node.js stdlib replacements, and verified vs. gated host toolchains.
 - **Licensing & IP Compliance Review ([LICENSING_REVIEW.md](./LICENSING_REVIEW.md)):** Permissive SBOM license verification (`MIT`/`Apache-2.0`) plus dual-licensing gates for JUCE 8 (`AGPLv3` vs. Commercial), Steinberg VST3 SDK (`GPLv3` vs. Steinberg License), and Image-Line FL Studio 2025 EULA boundaries.
 - **Technology Decisions Ledger ([TECHNOLOGY_DECISIONS.md](./TECHNOLOGY_DECISIONS.md)):** 13 binding technology decisions (`TD-01`..`TD-13`) traced to ADRs and runtime verification suites.
+
+---
+
+## 6. Master Systems Architecture & Contracts Index
+
+- **Master Systems Architecture ([MASTER_ARCHITECTURE.md](./MASTER_ARCHITECTURE.md)):** Complete logical, physical, runtime, data, protocol, lifecycle, failure-recovery, security-boundary, deployment, and scalability architecture across all 11 core engines.
+- **Module Catalog ([MODULE_CATALOG.md](./MODULE_CATALOG.md)):** Detailed specification of responsibility, typed inputs/outputs, dependencies, public interfaces, internal components, failure conditions, and test suites for every workspace module (`MOD-01`..`MOD-14`).
+- **System Diagrams ([SYSTEM_DIAGRAMS.md](./SYSTEM_DIAGRAMS.md)):** Mermaid diagrams for Hybrid Trust Boundaries (`TB-1`..`TB-7`), Monorepo Module Dependency Graph, Entity-Relationship & Evidence Provenance Data Flow, 10-Stage Governed Execution Sequence, and `INV-03` Approval/Workflow State Machine.
+- **Architecture Decision Records ([ARCHITECTURE_DECISION_RECORDS/README.md](./ARCHITECTURE_DECISION_RECORDS/README.md) & [docs/adr/](./docs/adr/)):** Master registry linking `ADR-0001` through `ADR-0010` to invariants (`INV-01`..`INV-05`) and test suites.
+- **Interface Contracts ([INTERFACE_CONTRACTS/README.md](./INTERFACE_CONTRACTS/README.md) & [core-contracts.md](./INTERFACE_CONTRACTS/core-contracts.md)):** Formal interface specifications synchronized with `@aether-forge/contracts`, [json-schema.json](./contracts/generated/json-schema.json), and [openapi.json](./contracts/generated/openapi.json).
