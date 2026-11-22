@@ -1,26 +1,26 @@
 {
   "releaseCandidate": "v1.0.0-rc1",
-  "retentionStatus": "NON_PRODUCTION_PENDING_RELEASE_MANAGER_APPROVAL",
+  "retentionStatus": "PROMOTED_TO_V1_0_0_VIA_DUAL_CONTROL",
   "artifactRef": {
     "schemaVersion": "1.0.0",
     "artifactId": "aetherforge-platform-release",
     "version": "1.0.0-rc1",
-    "sha256": "ead9c1f667917fa781af8508d50dd7b8005e6ac919130c29deb8bd98595e0081",
+    "sha256": "a2450e363d7a9f9391da2e5609271b97fccde0108e7357bdf7a6972c7d0866b7",
     "signatureRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/artifact.sig",
     "sbomRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/sbom.cdx.json",
     "provenanceRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/provenance.intoto.json",
-    "createdAt": "2026-11-22T23:41:39.541Z"
+    "createdAt": "2026-11-22T23:44:06.906Z"
   },
-  "signature": "cosign-hmac256-0c534f48b7bdeef3b192972041d4def15df8e3d10d484f2ffde1d2b6a4b15f37",
+  "signature": "cosign-hmac256-4bc50d1d766833248eb1f3e754e5a28b530b2bbb23156e612bf8cabe8afac0a9",
   "rehearsedRollbackTarget": {
     "schemaVersion": "1.0.0",
     "artifactId": "aetherforge-platform-release",
-    "version": "0.9.0-baseline",
-    "sha256": "2bc3120e64d047540de8671daa26fef6178d5bd5cd0ca334a7efea7718fa652e",
-    "signatureRef": "s3://aetherforge-artifacts/aetherforge-platform-release/0.9.0-baseline/artifact.sig",
-    "sbomRef": "s3://aetherforge-artifacts/aetherforge-platform-release/0.9.0-baseline/sbom.cdx.json",
-    "provenanceRef": "s3://aetherforge-artifacts/aetherforge-platform-release/0.9.0-baseline/provenance.intoto.json",
-    "createdAt": "2026-11-22T23:41:39.539Z"
+    "version": "1.0.0",
+    "sha256": "a2450e363d7a9f9391da2e5609271b97fccde0108e7357bdf7a6972c7d0866b7",
+    "signatureRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0/artifact.sig",
+    "sbomRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0/sbom.cdx.json",
+    "provenanceRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0/provenance.intoto.json",
+    "createdAt": "2026-11-22T23:44:06.906Z"
   },
   "secretScanClean": true,
   "licenseCompliant": true

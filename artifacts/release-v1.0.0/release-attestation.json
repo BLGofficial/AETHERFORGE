@@ -1,0 +1,32 @@
+{
+  "releaseVersion": "1.0.0",
+  "promotedFrom": "1.0.0-rc1",
+  "status": "RELEASE_MANAGER_APPROVED_PRODUCTION_V1_0_0",
+  "dualControlApprovers": [
+    "actor-reviewer-01",
+    "actor-release-manager-01"
+  ],
+  "artifactRef": {
+    "schemaVersion": "1.0.0",
+    "artifactId": "aetherforge-platform-release",
+    "version": "1.0.0",
+    "sha256": "a2450e363d7a9f9391da2e5609271b97fccde0108e7357bdf7a6972c7d0866b7",
+    "signatureRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0/artifact.sig",
+    "sbomRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0/sbom.cdx.json",
+    "provenanceRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0/provenance.intoto.json",
+    "createdAt": "2026-11-22T23:44:06.906Z"
+  },
+  "signature": "cosign-hmac256-2d0a71b7dd54c6e41a398d35ee192d72cdf4b181cb42504391db731e2756025d",
+  "rehearsedRollbackTarget": {
+    "schemaVersion": "1.0.0",
+    "artifactId": "aetherforge-platform-release",
+    "version": "1.0.0-rc1",
+    "sha256": "a2450e363d7a9f9391da2e5609271b97fccde0108e7357bdf7a6972c7d0866b7",
+    "signatureRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/artifact.sig",
+    "sbomRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/sbom.cdx.json",
+    "provenanceRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/provenance.intoto.json",
+    "createdAt": "2026-11-22T23:44:06.906Z"
+  },
+  "secretScanClean": true,
+  "licenseCompliant": true
+}

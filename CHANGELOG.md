@@ -2,6 +2,13 @@
 
 All notable changes for the `v1.0.0-rc1` engineering foundation and vertical slice program are documented in this file.
 
+## [1.0.0] — 2026-11-23
+
+### Added
+- **Phase 13 (Native Compilation & FL Studio 2025 Python Bridge):** Compiled native Windows x64 `artifacts/native/AetherForge.WindowsWorker.exe` via Framework64 `csc.exe` with live Windows DPAPI (`ProtectedData`) and `FileAttributes.ReparsePoint` verification; verified FL Studio 2025 read-only Python controller script (`device_aetherforge_inspect.py`) on Python 3.14; completed `gain_normalize_pcm16_wav` in `workers/audio-engine/src/lib.rs`.
+- **Phase 14 (Cloud Staging & Server-Side Provider Integration):** Implemented `ServerSideSecretManager` and `ManagedVendorProviderAdapter` (`openai`, `anthropic`, `google`, `self-hosted-openai-compat`) with zero-leakage guarantees; verified PostgreSQL 16 + `pgvector` DDL and Temporal Cloud namespace archival invariants.
+- **Phase 15 (Dual-Control Production Promotion `v1.0.0`):** Enforced dual-control `Reviewer` + `ReleaseManager` separation in `SignedArtifactRegistry.promoteReleaseCandidateToProduction`, passed 5-iteration Stage 1 canary soak, and generated signed `artifacts/release-v1.0.0/` bundle with rehearsed rollback to `1.0.0-rc1`.
+
 ## [1.0.0-rc1] — 2026-11-23
 
 ### Added

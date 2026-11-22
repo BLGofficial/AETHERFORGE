@@ -1,0 +1,18 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "aetherforge-platform-release@1.0.0",
+      "digest": {
+        "sha256": "a2450e363d7a9f9391da2e5609271b97fccde0108e7357bdf7a6972c7d0866b7"
+      }
+    }
+  ],
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "predicate": {
+    "buildType": "https://aetherforge.internal/build/v1",
+    "builderId": "urn:aetherforge:ci:release-builder",
+    "sbomSha256": "df81dd6c1f352160e12e11233e88c5c48bf96cb47de61ccc4e72324ba6b36f6a",
+    "testEvidencePassed": true
+  }
+}

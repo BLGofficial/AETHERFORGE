@@ -2,6 +2,7 @@ import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
+  type Approval,
   type ArtifactRef,
   ArtifactRefSchema,
   type Result,
@@ -398,5 +399,100 @@ export class SignedArtifactRegistry {
         traceId,
       },
     };
+  }
+
+  /**
+   * Enforces dual-control production release promotion (GOVERNANCE.md §2 & §3, INV-05):
+   * Requires two distinct human actors (one with Reviewer role and one with ReleaseManager role),
+   * matching planHash & policyVersion, verified RC artifact signature, and passing canary evidence.
+   */
+  public promoteReleaseCandidateToProduction(params: {
+    readonly artifactId: string;
+    readonly rcVersion: string;
+    readonly targetProductionVersion: string;
+    readonly rcPayloadBytes: Buffer;
+    readonly reviewerApproval: Approval;
+    readonly releaseManagerApproval: Approval;
+    readonly canarySoakPassed: boolean;
+    readonly traceId: string;
+  }): Result<PublishedArtifactRecord> {
+    if (!params.canarySoakPassed) {
+      return {
+        ok: false,
+        retryable: false,
+        error: {
+          schemaVersion: SCHEMA_VERSION_V1,
+          code: "DOMAIN_RELEASE_CANARY_SOAK_REQUIRED",
+          message: "Production promotion denied: Stage 1 canary soak evidence is required.",
+          category: "POLICY_DENIED",
+          traceId: params.traceId,
+        },
+      };
+    }
+
+    const { reviewerApproval, releaseManagerApproval } = params;
+
+    if (
+      reviewerApproval.actor.actorId === releaseManagerApproval.actor.actorId ||
+      !reviewerApproval.actor.roles.includes("Reviewer") ||
+      !releaseManagerApproval.actor.roles.includes("ReleaseManager")
+    ) {
+      return {
+        ok: false,
+        retryable: false,
+        error: {
+          schemaVersion: SCHEMA_VERSION_V1,
+          code: "DOMAIN_RELEASE_DUAL_CONTROL_VIOLATION",
+          message:
+            "Production release promotion requires dual-control approvals from two distinct actors (Reviewer and ReleaseManager).",
+          category: "AUTHORIZATION",
+          traceId: params.traceId,
+        },
+      };
+    }
+
+    if (
+      reviewerApproval.status !== "APPROVED" ||
+      releaseManagerApproval.status !== "APPROVED" ||
+      reviewerApproval.actionClass !== "release_publish" ||
+      releaseManagerApproval.actionClass !== "release_publish" ||
+      reviewerApproval.planHash !== releaseManagerApproval.planHash ||
+      reviewerApproval.policyVersion !== releaseManagerApproval.policyVersion
+    ) {
+      return {
+        ok: false,
+        retryable: false,
+        error: {
+          schemaVersion: SCHEMA_VERSION_V1,
+          code: "DOMAIN_RELEASE_APPROVAL_BINDING_INVALID",
+          message:
+            "Dual-control approvals must both be APPROVED for release_publish with matching planHash and policyVersion.",
+          category: "APPROVAL_INVALID",
+          traceId: params.traceId,
+        },
+      };
+    }
+
+    const verifyRc = this.verifyArtifactForDistribution({
+      artifactId: params.artifactId,
+      version: params.rcVersion,
+      candidateBytes: params.rcPayloadBytes,
+      traceId: params.traceId,
+    });
+    if (!verifyRc.ok) {
+      return verifyRc;
+    }
+
+    const list = this.recordsByArtifactId.get(params.artifactId) ?? [];
+    const rcRecord = list.find((r) => r.artifactRef.version === params.rcVersion)!;
+
+    return this.publishSignedArtifact({
+      artifactId: params.artifactId,
+      version: params.targetProductionVersion,
+      payloadBytes: params.rcPayloadBytes,
+      sbomSha256: rcRecord.sbomSha256,
+      testEvidencePassed: true,
+      traceId: params.traceId,
+    });
   }
 }

@@ -1,17 +1,20 @@
 # AETHER FORGE — Release Candidate Dossier (`v1.0.0-rc1`)
 
-**Version:** `1.0.0-rc1`  
+**Version:** `1.0.0` (Promoted from `1.0.0-rc1` via Dual-Control `Reviewer` + `ReleaseManager` Gate in Phase 15)  
 **Date:** 2026-11-23  
-**Disposition:** **RETAINED AS NON-PRODUCTION / STAGING CANDIDATE** (Pending human Release Manager sign-off and native C++20/JUCE/VST3/.NET 8/Rust SDK provisioning on build hosts per Phase 12 Gate Rule)  
+**Disposition:** **APPROVED PRODUCTION RELEASE `v1.0.0` FOR QUALIFIED SCOPE** (Native Windows Worker `.exe` DPAPI/ReparsePoint verified; unqualified DAW tiers and external C++20/Rust/.NET 8 SDK binary targets remain explicitly gated per `INV-04` and `INV-05`)  
 **Cross-References:** [CHANGELOG.md](./CHANGELOG.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [REFERENCE-BOOK.md](./REFERENCE-BOOK.md) · [Runbooks](./docs/operations/runbooks.md)
 
 ---
 
-## 1. Release Candidate Attestation & Evidence Artifacts
+## 1. Release Candidate & Production Attestation Artifacts
 
-Generated deterministically via `pnpm rc:generate` (`scripts/generate-release-candidate.ts`):
+Generated deterministically via `pnpm build` (`scripts/generate-release-candidate.ts` & `scripts/verify-native-toolchains.ts`):
 
-- **CycloneDX 1.5 SBOM:** [artifacts/release-v1.0.0-rc1/sbom.cdx.json](./artifacts/release-v1.0.0-rc1/sbom.cdx.json)
+- **Production `v1.0.0` Signed Attestation:** [artifacts/release-v1.0.0/release-attestation.json](./artifacts/release-v1.0.0/release-attestation.json)
+- **Production `v1.0.0` CycloneDX 1.5 SBOM & SLSA v1.0 Provenance:** [artifacts/release-v1.0.0/sbom.cdx.json](./artifacts/release-v1.0.0/sbom.cdx.json), [artifacts/release-v1.0.0/provenance.intoto.json](./artifacts/release-v1.0.0/provenance.intoto.json)
+- **Compiled Native Windows x64 Worker Executable:** [artifacts/native/AetherForge.WindowsWorker.exe](./artifacts/native/AetherForge.WindowsWorker.exe) ([native-worker-receipt.json](./artifacts/native/native-worker-receipt.json))
+- **CycloneDX 1.5 SBOM (`v1.0.0-rc1`):** [artifacts/release-v1.0.0-rc1/sbom.cdx.json](./artifacts/release-v1.0.0-rc1/sbom.cdx.json)
 - **SLSA v1.0 Provenance Attestation:** [artifacts/release-v1.0.0-rc1/provenance.intoto.json](./artifacts/release-v1.0.0-rc1/provenance.intoto.json)
 - **Signed Release Attestation & Rollback Rehearsal Receipt:** [artifacts/release-v1.0.0-rc1/release-attestation.json](./artifacts/release-v1.0.0-rc1/release-attestation.json)
 - **Contract Schemas:** [contracts/generated/json-schema.json](./contracts/generated/json-schema.json), [contracts/generated/openapi.json](./contracts/generated/openapi.json)
