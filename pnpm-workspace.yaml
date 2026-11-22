@@ -1,0 +1,9 @@
+packages:
+  - "contracts"
+  - "apps/*"
+  - "services/*"
+  - "workers/*"
+  - "adapters/*"
+  - "plugins/*"
+  - "packages/*"
+  - "tests/*"

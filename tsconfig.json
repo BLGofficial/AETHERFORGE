@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "contracts/src/**/*.ts",
+    "contracts/scripts/**/*.ts",
+    "contracts/tests/**/*.ts",
+    "packages/*/src/**/*.ts",
+    "adapters/*/src/**/*.ts",
+    "apps/*/src/**/*.ts",
+    "services/*/src/**/*.ts",
+    "workers/*/src/**/*.ts",
+    "plugins/*/src/**/*.ts",
+    "scripts/**/*.ts",
+    "tests/*/src/**/*.ts"
+  ]
+}

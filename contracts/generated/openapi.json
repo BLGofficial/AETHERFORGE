@@ -1,0 +1,518 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AETHER FORGE Control Plane Domain API",
+    "version": "1.0.0",
+    "description": "Typed protocol boundary for governed brief submission, execution planning, approval binding, and emergency stop."
+  },
+  "paths": {
+    "/api/v1/briefs": {
+      "post": {
+        "operationId": "submitBrief",
+        "summary": "Submit a governed product or audio engineering brief",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "context",
+                  "brief"
+                ],
+                "properties": {
+                  "context": {
+                    "$ref": "#/components/schemas/RequestContext"
+                  },
+                  "brief": {
+                    "$ref": "#/components/schemas/Brief"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Result<SpecRef> envelope"
+          },
+          "403": {
+            "description": "Policy or authorization denial"
+          },
+          "423": {
+            "description": "Emergency stop active"
+          }
+        }
+      }
+    },
+    "/api/v1/plans": {
+      "post": {
+        "operationId": "createPlan",
+        "summary": "Create a deterministic ExecutionPlan from a ProductSpec",
+        "responses": {
+          "200": {
+            "description": "Result<ExecutionPlan> envelope"
+          }
+        }
+      }
+    },
+    "/api/v1/approvals/{approvalId}/decision": {
+      "post": {
+        "operationId": "decideApproval",
+        "summary": "Record human approval or rejection bound to planHash and policyVersion",
+        "responses": {
+          "200": {
+            "description": "Result<{ approval, grant? }> envelope"
+          },
+          "409": {
+            "description": "Stale planHash or policyVersion invalidated approval"
+          }
+        }
+      }
+    },
+    "/api/v1/system/emergency-stop": {
+      "post": {
+        "operationId": "triggerEmergencyStop",
+        "summary": "Immediately halt dispatch, revoke active grants, and signal running workflows",
+        "responses": {
+          "200": {
+            "description": "Result<EmergencyStopReceipt> envelope"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RequestContext": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "requestId",
+          "tenantId",
+          "actor",
+          "traceId",
+          "idempotencyKey",
+          "classification"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "pattern": "^1\\.\\d+\\.\\d+$"
+          },
+          "requestId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "tenantId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "projectId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "traceId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "PUBLIC",
+              "INTERNAL",
+              "CONFIDENTIAL",
+              "RESTRICTED_LOCAL",
+              "SECRET_CREDENTIAL"
+            ]
+          },
+          "actor": {
+            "type": "object",
+            "required": [
+              "actorId",
+              "principalType",
+              "roles"
+            ],
+            "properties": {
+              "actorId": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              },
+              "principalType": {
+                "type": "string",
+                "enum": [
+                  "human",
+                  "service",
+                  "worker"
+                ]
+              },
+              "roles": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Owner",
+                    "Builder",
+                    "Reviewer",
+                    "ReleaseManager",
+                    "WorkerOperator"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "Brief": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "briefId",
+          "tenantId",
+          "projectId",
+          "title",
+          "objective",
+          "constraints",
+          "classification",
+          "createdBy",
+          "createdAt"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "pattern": "^1\\.\\d+\\.\\d+$"
+          },
+          "briefId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "tenantId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "projectId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 240
+          },
+          "objective": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10000
+          },
+          "constraints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "PUBLIC",
+              "INTERNAL",
+              "CONFIDENTIAL",
+              "RESTRICTED_LOCAL",
+              "SECRET_CREDENTIAL"
+            ]
+          },
+          "createdBy": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ExecutionPlan": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "planId",
+          "specId",
+          "tenantId",
+          "projectId",
+          "steps",
+          "planHash",
+          "policyVersion",
+          "createdAt"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "pattern": "^1\\.\\d+\\.\\d+$"
+          },
+          "planId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "specId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "tenantId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "projectId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "planHash": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "policyVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/definitions/PlanStep"
+            }
+          }
+        }
+      },
+      "PlanStep": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "stepId",
+          "orderIndex",
+          "toolId",
+          "actionClass",
+          "description",
+          "input",
+          "expectedOutputs",
+          "requiresApproval"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "pattern": "^1\\.\\d+\\.\\d+$"
+          },
+          "stepId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "toolId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "actionClass": {
+            "type": "string",
+            "enum": [
+              "read_allowlisted",
+              "write_workspace",
+              "command_bounded",
+              "audio_dsp",
+              "daw_inspect",
+              "daw_non_destructive_edit",
+              "daw_session_mutation",
+              "daw_render",
+              "external_upload",
+              "package_install",
+              "release_publish"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 1000
+          },
+          "input": {
+            "type": "object"
+          },
+          "expectedOutputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "requiresApproval": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CapabilityGrant": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "grantId",
+          "tenantId",
+          "projectId",
+          "workerId",
+          "planId",
+          "planHash",
+          "stepId",
+          "actionClass",
+          "canonicalPathScope",
+          "policyVersion",
+          "issuedAt",
+          "expiresAt",
+          "signature"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "pattern": "^1\\.\\d+\\.\\d+$"
+          },
+          "grantId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "tenantId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "projectId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "workerId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "planId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "planHash": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "stepId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "actionClass": {
+            "type": "string"
+          },
+          "canonicalPathScope": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "policyVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "revoked": {
+            "type": "boolean"
+          },
+          "signature": {
+            "type": "string",
+            "minLength": 32
+          }
+        }
+      },
+      "Approval": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "approvalId",
+          "tenantId",
+          "projectId",
+          "actor",
+          "planId",
+          "planHash",
+          "stepId",
+          "actionClass",
+          "policyVersion",
+          "canonicalPathScope",
+          "decision",
+          "status",
+          "rationale",
+          "decidedAt",
+          "expiresAt"
+        ]
+      },
+      "WorkerJob": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "jobId",
+          "traceId",
+          "idempotencyKey",
+          "stepId",
+          "grant",
+          "payload",
+          "manifestSignature"
+        ]
+      },
+      "EvidenceRef": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "evidenceId",
+          "traceId",
+          "producer",
+          "artifactHash",
+          "classification",
+          "createdAt",
+          "verifiableLocation"
+        ]
+      },
+      "AuditEvent": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "eventId",
+          "timestamp",
+          "tenantId",
+          "actor",
+          "traceId",
+          "idempotencyKey",
+          "eventType",
+          "policyVersion",
+          "outcome",
+          "payloadHash"
+        ]
+      },
+      "DomainError": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "code",
+          "message",
+          "category",
+          "traceId"
+        ]
+      }
+    }
+  }
+}

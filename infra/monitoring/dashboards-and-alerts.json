@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "dashboards": [
+    {
+      "id": "aetherforge-end-to-end-job-correlation",
+      "title": "AETHER FORGE — End-to-End Governed Job Correlation",
+      "requiredSpanBoundaries": ["web", "api", "temporal", "worker", "adapter"],
+      "panels": [
+        { "title": "W3C Trace Timeline (web -> api -> temporal -> worker -> adapter)", "type": "trace-timeline" },
+        { "title": "OPA Policy Decision & Approval Drift Counter", "metric": "aetherforge_policy_denials_total" },
+        { "title": "Windows Worker Manifest Signature Failures", "metric": "aetherforge_worker_signature_failures_total" },
+        { "title": "Provider Gateway Egress Blocks & Outages", "metric": "aetherforge_provider_errors_total" }
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "alertId": "ALERT_FORGED_MANIFEST_DETECTED",
+      "severity": "CRITICAL",
+      "expr": "increase(aetherforge_worker_signature_failures_total[5m]) > 0",
+      "runbookRef": "docs/operations/runbooks.md#2-forged-manifest--compromised-worker-identity-incident"
+    },
+    {
+      "alertId": "ALERT_EMERGENCY_STOP_ACTIVE",
+      "severity": "CRITICAL",
+      "expr": "increase(aetherforge_emergency_stops_total[1m]) > 0",
+      "runbookRef": "docs/operations/runbooks.md#1-emergency-stop--workstation-quarantine-recovery"
+    },
+    {
+      "alertId": "ALERT_ARTIFACT_TAMPER_DETECTED",
+      "severity": "CRITICAL",
+      "expr": "increase(aetherforge_artifact_tamper_total[5m]) > 0",
+      "runbookRef": "docs/operations/runbooks.md#4-staged-rollout--signed-artifact-rollback"
+    },
+    {
+      "alertId": "ALERT_PROVIDER_OUTAGE",
+      "severity": "HIGH",
+      "expr": "increase(aetherforge_provider_errors_total[5m]) >= 3",
+      "runbookRef": "docs/operations/runbooks.md#5-llm-provider-outage--failover"
+    }
+  ]
+}

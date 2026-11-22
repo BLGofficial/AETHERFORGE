@@ -1,0 +1,8 @@
+[package]
+name = "aetherforge-audio-engine"
+version = "1.0.0"
+edition = "2021"
+description = "AETHER FORGE local offline deterministic DSP audio engine (ADR-0008)"
+
+[lib]
+path = "src/lib.rs"

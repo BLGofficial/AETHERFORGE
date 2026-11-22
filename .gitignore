@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.turbo/
+coverage/
+.env
+.env.*
+*.tmp-*
+local-workspace/
+0.26.0
+

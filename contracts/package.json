@@ -1,0 +1,25 @@
+{
+  "name": "@aether-forge/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./domain": "./src/domain/index.ts",
+    "./events": "./src/events/index.ts",
+    "./worker": "./src/worker/index.ts",
+    "./tools": "./src/tools/index.ts",
+    "./api": "./src/api/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit && node --experimental-strip-types ./scripts/generate-schemas.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "schemas:generate": "node --experimental-strip-types ./scripts/generate-schemas.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}

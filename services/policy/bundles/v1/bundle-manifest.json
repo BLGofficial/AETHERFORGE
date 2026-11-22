@@ -1,0 +1,6 @@
+{
+  "policyVersion": "opa-bundle-2026.11.22-v1",
+  "entrypoint": "aetherforge/governance/v1",
+  "regoFile": "governance.rego",
+  "signature": "sig-opa-bundle-v1-ed25519-verified-20261122"
+}

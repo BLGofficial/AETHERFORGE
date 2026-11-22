@@ -1,0 +1,31 @@
+{
+  "name": "@aether-forge/security-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aether-forge/api": "workspace:*",
+    "@aether-forge/artifact-registry": "workspace:*",
+    "@aether-forge/audio-engine": "workspace:*",
+    "@aether-forge/audit": "workspace:*",
+    "@aether-forge/contracts": "workspace:*",
+    "@aether-forge/daw-contract": "workspace:*",
+    "@aether-forge/filesystem": "workspace:*",
+    "@aether-forge/fl-studio-2025": "workspace:*",
+    "@aether-forge/knowledge": "workspace:*",
+    "@aether-forge/observability": "workspace:*",
+    "@aether-forge/orchestration": "workspace:*",
+    "@aether-forge/policy": "workspace:*",
+    "@aether-forge/provider-gateway": "workspace:*",
+    "@aether-forge/sdk": "workspace:*",
+    "@aether-forge/test-fixtures": "workspace:*",
+    "@aether-forge/vst3": "workspace:*",
+    "@aether-forge/web": "workspace:*",
+    "@aether-forge/windows-host": "workspace:*"
+  }
+}
