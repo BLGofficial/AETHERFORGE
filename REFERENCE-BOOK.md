@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0  
 **Status:** Living Architecture Index (Phase 00–15 Complete, `v1.0.0`)  
-**Cross-References:** [README.md](./README.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [REFERENCE_BOOK.md](./REFERENCE_BOOK.md) · [PRD.md](./PRD.md) · [SRS.md](./SRS.md) · [CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md) · [REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md) · [ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md) · [contracts/README.md](./contracts/README.md) · [Requirements](./docs/product/requirements.md) · [Threat Model](./docs/security/threat-model.md) · [Data Classification](./docs/security/data-classification.md) · [Backlog](./backlog/issues.md)
+**Cross-References:** [README.md](./README.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [REFERENCE_BOOK.md](./REFERENCE_BOOK.md) · [PRD.md](./PRD.md) · [SRS.md](./SRS.md) · [CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md) · [REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md) · [ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md) · [TECHNICAL_RESEARCH.md](./TECHNICAL_RESEARCH.md) · [TECHNOLOGY_COMPARISON.md](./TECHNOLOGY_COMPARISON.md) · [DEPENDENCY_REGISTER.md](./DEPENDENCY_REGISTER.md) · [LICENSING_REVIEW.md](./LICENSING_REVIEW.md) · [TECHNOLOGY_DECISIONS.md](./TECHNOLOGY_DECISIONS.md) · [contracts/README.md](./contracts/README.md) · [Requirements](./docs/product/requirements.md) · [Threat Model](./docs/security/threat-model.md) · [Data Classification](./docs/security/data-classification.md) · [Backlog](./backlog/issues.md)
 
 > **Maintenance Rule:** Any feature or phase delivery must update the relevant sections of this Reference Book or explicitly record `"no reference-book impact"` in its phase report.
 

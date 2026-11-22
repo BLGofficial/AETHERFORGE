@@ -4,7 +4,7 @@
 **Date:** 2026-11-23  
 **Status:** Canonical Living Engineering Reference (`v1.0.0-rc1`)  
 **Companion Index:** [REFERENCE-BOOK.md](./REFERENCE-BOOK.md) (synchronized Blueprint v1.0 index)  
-**Cross-References:** [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) · [SYSTEM_VISION.md](./SYSTEM_VISION.md) · [SCOPE.md](./SCOPE.md) · [ENGINEERING_PRINCIPLES.md](./ENGINEERING_PRINCIPLES.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [MASTER_ROADMAP.md](./MASTER_ROADMAP.md) · [PRD.md](./PRD.md) · [SRS.md](./SRS.md) · [CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md) · [REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md) · [ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md)
+**Cross-References:** [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) · [SYSTEM_VISION.md](./SYSTEM_VISION.md) · [SCOPE.md](./SCOPE.md) · [ENGINEERING_PRINCIPLES.md](./ENGINEERING_PRINCIPLES.md) · [GOVERNANCE.md](./GOVERNANCE.md) · [MASTER_ROADMAP.md](./MASTER_ROADMAP.md) · [PRD.md](./PRD.md) · [SRS.md](./SRS.md) · [CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md) · [REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md) · [ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md) · [TECHNICAL_RESEARCH.md](./TECHNICAL_RESEARCH.md) · [TECHNOLOGY_COMPARISON.md](./TECHNOLOGY_COMPARISON.md) · [DEPENDENCY_REGISTER.md](./DEPENDENCY_REGISTER.md) · [LICENSING_REVIEW.md](./LICENSING_REVIEW.md) · [TECHNOLOGY_DECISIONS.md](./TECHNOLOGY_DECISIONS.md)
 
 ---
 
@@ -70,3 +70,13 @@ Direct empirical inspection of the Windows 11 workstation (`C:\Users\blago\Deskt
 - **Capability Matrix ([CAPABILITY_MATRIX.md](./CAPABILITY_MATRIX.md)):** 4-column matrix mapping Native Platform Capabilities, External Tool Capabilities, Human-Approval-Gated Capabilities, and Unsupported/Blocked Capabilities across all 11 capability areas.
 - **Requirements Traceability Matrix ([REQUIREMENTS_TRACEABILITY.md](./REQUIREMENTS_TRACEABILITY.md)):** 100% bidirectional traceability mapping `REQ-F-0001..0020` and `REQ-NF-0001..0014` to governing ADRs/invariants, implementing packages/files, Zod contract schemas, and automated test suites.
 - **Acceptance Criteria Ledger ([ACCEPTANCE_CRITERIA.md](./ACCEPTANCE_CRITERIA.md)):** Given/When/Then acceptance criteria (`AC-F-0001`..`AC-F-0020`, `AC-NF-0001`..`AC-NF-0014`) verified across `17` test suites (`52/52` passing tests).
+
+---
+
+## 5. Technical Research & Technology Decisions Index
+
+- **Chief Technical Research Dossier ([TECHNICAL_RESEARCH.md](./TECHNICAL_RESEARCH.md)):** Evaluation of all 13 research domains distinguishing `[VERIFIED FACT]`, `[ENGINEERING RECOMMENDATION]`, and `[UNVERIFIED ASSUMPTION]`.
+- **Technology Comparison Matrix ([TECHNOLOGY_COMPARISON.md](./TECHNOLOGY_COMPARISON.md)):** Decisive architectural tradeoffs across 13 domains (Bounded Planner vs. LangChain/AutoGen, OPA Rego vs. prompt judges, Temporal vs. queues, Postgres+`pgvector` vs. standalone vector DBs, C++20 lock-free VST3 vs. GC runtimes).
+- **Dependency & Toolchain Register ([DEPENDENCY_REGISTER.md](./DEPENDENCY_REGISTER.md)):** Complete inventory of direct NPM dependencies (`zod`, `typescript`, `vitest`, `@types/node`), Node.js stdlib replacements, and verified vs. gated host toolchains.
+- **Licensing & IP Compliance Review ([LICENSING_REVIEW.md](./LICENSING_REVIEW.md)):** Permissive SBOM license verification (`MIT`/`Apache-2.0`) plus dual-licensing gates for JUCE 8 (`AGPLv3` vs. Commercial), Steinberg VST3 SDK (`GPLv3` vs. Steinberg License), and Image-Line FL Studio 2025 EULA boundaries.
+- **Technology Decisions Ledger ([TECHNOLOGY_DECISIONS.md](./TECHNOLOGY_DECISIONS.md)):** 13 binding technology decisions (`TD-01`..`TD-13`) traced to ADRs and runtime verification suites.
