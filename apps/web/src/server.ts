@@ -115,6 +115,120 @@ export function createWebControlPlaneServer(deps: WebControlPlaneServerDeps): {
   const server = createServer(async (req: IncomingMessage, res: ServerResponse) => {
     const url = req.url ?? "/";
 
+    if (req.method === "GET" && url === "/api/v1/health") {
+      res.writeHead(200, { "content-type": "application/json; charset=utf-8" });
+      res.end(
+        JSON.stringify({
+          ok: true,
+          service: "aetherforge-control-plane",
+          schemaVersion: SCHEMA_VERSION_V1,
+          policyVersion: deps.api.getPolicyVersion(),
+        }),
+      );
+      return;
+    }
+
+    if (req.method === "POST" && url.startsWith("/api/v1/")) {
+      const authHeader = req.headers["authorization"] ?? "";
+      const bearerToken = authHeader.startsWith("Bearer ")
+        ? authHeader.slice("Bearer ".length).trim()
+        : deps.defaultBearerToken;
+
+      let parsedJson: unknown;
+      try {
+        const raw = await readRequestBody(req);
+        parsedJson = JSON.parse(raw);
+      } catch {
+        res.writeHead(400, { "content-type": "application/json; charset=utf-8" });
+        res.end(
+          JSON.stringify({
+            ok: false,
+            retryable: false,
+            error: {
+              schemaVersion: SCHEMA_VERSION_V1,
+              code: "DOMAIN_INVALID_JSON_BODY",
+              message: "Request body is not valid JSON.",
+              category: "VALIDATION",
+              traceId: "invalid-json-trace",
+            },
+          }),
+        );
+        return;
+      }
+
+      if (url === "/api/v1/briefs") {
+        const result = deps.api.submitBrief(parsedJson as Parameters<typeof deps.api.submitBrief>[0], {
+          bearerToken,
+        });
+        const status = result.ok
+          ? 200
+          : result.error.category === "NOT_FOUND"
+            ? 404
+            : result.error.category === "EMERGENCY_STOP"
+              ? 423
+              : result.error.category === "CONFLICT"
+                ? 409
+                : 403;
+        res.writeHead(status, { "content-type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify(result));
+        return;
+      }
+
+      if (url === "/api/v1/plans") {
+        const result = deps.api.createPlan(parsedJson as Parameters<typeof deps.api.createPlan>[0], {
+          bearerToken,
+        });
+        const status = result.ok
+          ? 200
+          : result.error.category === "NOT_FOUND"
+            ? 404
+            : result.error.category === "EMERGENCY_STOP"
+              ? 423
+              : 403;
+        res.writeHead(status, { "content-type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify(result));
+        return;
+      }
+
+      const approvalMatch = /^\/api\/v1\/approvals\/([^/]+)\/decision$/.exec(url);
+      if (approvalMatch?.[1]) {
+        const bodyObj =
+          typeof parsedJson === "object" && parsedJson !== null
+            ? (parsedJson as Record<string, unknown>)
+            : {};
+        const result = deps.api.decideApproval(
+          {
+            ...bodyObj,
+            approvalId: approvalMatch[1],
+          } as Parameters<typeof deps.api.decideApproval>[0],
+          { bearerToken },
+        );
+        const status = result.ok
+          ? 200
+          : result.error.category === "NOT_FOUND"
+            ? 404
+            : result.error.category === "APPROVAL_INVALID"
+              ? 409
+              : result.error.category === "EMERGENCY_STOP"
+                ? 423
+                : 403;
+        res.writeHead(status, { "content-type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify(result));
+        return;
+      }
+
+      if (url === "/api/v1/system/emergency-stop") {
+        const result = deps.api.triggerEmergencyStop(
+          parsedJson as Parameters<typeof deps.api.triggerEmergencyStop>[0],
+          { bearerToken },
+        );
+        const status = result.ok ? 200 : result.error.category === "NOT_FOUND" ? 404 : 403;
+        res.writeHead(status, { "content-type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify(result));
+        return;
+      }
+    }
+
     if (req.method === "GET" && (url === "/" || url.startsWith("/ui"))) {
       renderPage(res, 200);
       return;

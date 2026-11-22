@@ -197,18 +197,27 @@ importers:
 
   tests/contract:
     dependencies:
+      '@aether-forge/api':
+        specifier: workspace:*
+        version: link:../../apps/api
       '@aether-forge/contracts':
         specifier: workspace:*
         version: link:../../contracts
       '@aether-forge/daw-contract':
         specifier: workspace:*
         version: link:../../adapters/daw-contract
+      '@aether-forge/orchestration':
+        specifier: workspace:*
+        version: link:../../services/orchestration
       '@aether-forge/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       '@aether-forge/test-fixtures':
         specifier: workspace:*
         version: link:../../packages/test-fixtures
+      '@aether-forge/web':
+        specifier: workspace:*
+        version: link:../../apps/web
 
   tests/e2e:
     dependencies:

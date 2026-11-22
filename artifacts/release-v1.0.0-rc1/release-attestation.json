@@ -9,7 +9,7 @@
     "signatureRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/artifact.sig",
     "sbomRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/sbom.cdx.json",
     "provenanceRef": "s3://aetherforge-artifacts/aetherforge-platform-release/1.0.0-rc1/provenance.intoto.json",
-    "createdAt": "2026-11-22T23:09:43.914Z"
+    "createdAt": "2026-11-22T23:31:46.440Z"
   },
   "signature": "cosign-hmac256-0c534f48b7bdeef3b192972041d4def15df8e3d10d484f2ffde1d2b6a4b15f37",
   "rehearsedRollbackTarget": {
@@ -20,7 +20,7 @@
     "signatureRef": "s3://aetherforge-artifacts/aetherforge-platform-release/0.9.0-baseline/artifact.sig",
     "sbomRef": "s3://aetherforge-artifacts/aetherforge-platform-release/0.9.0-baseline/sbom.cdx.json",
     "provenanceRef": "s3://aetherforge-artifacts/aetherforge-platform-release/0.9.0-baseline/provenance.intoto.json",
-    "createdAt": "2026-11-22T23:09:43.912Z"
+    "createdAt": "2026-11-22T23:31:46.437Z"
   },
   "secretScanClean": true,
   "licenseCompliant": true

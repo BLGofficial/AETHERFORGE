@@ -9,9 +9,12 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@aether-forge/api": "workspace:*",
     "@aether-forge/contracts": "workspace:*",
     "@aether-forge/daw-contract": "workspace:*",
+    "@aether-forge/orchestration": "workspace:*",
     "@aether-forge/sdk": "workspace:*",
-    "@aether-forge/test-fixtures": "workspace:*"
+    "@aether-forge/test-fixtures": "workspace:*",
+    "@aether-forge/web": "workspace:*"
   }
 }

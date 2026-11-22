@@ -1,0 +1,18 @@
+# AETHER FORGE — Temporal Namespace & Deterministic Workflow Configuration (ADR-0003)
+apiVersion: temporal.io/v1
+kind: NamespaceConfig
+metadata:
+  name: aetherforge-governed-orchestration
+spec:
+  retentionDays: 365
+  historyArchivalState: Enabled
+  visibilityArchivalState: Enabled
+  customSearchAttributes:
+    TenantId: Keyword
+    ProjectId: Keyword
+    PlanHash: Keyword
+    PolicyVersion: Keyword
+    WorkflowVersion: Keyword
+  securityInvariants:
+    forbidRawLocalFileBytesInPayload: true
+    forbidProviderSecretsInHistory: true
