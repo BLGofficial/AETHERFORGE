@@ -29,10 +29,10 @@
 
 ## 2. Next Engineering Phases (Post-`v1.0.0-rc1` Production Progression)
 
-### PHASE 13 — Native Toolchain Provisioning & Binary Compilation (RECOMMENDED NEXT PHASE)
-1. **AF-1301 (Rust Native Audio Sidecar):** Install `rustup` (`stable-x86_64-pc-windows-msvc`) and run `cargo test` & `cargo build --release` on [workers/audio-engine/Cargo.toml](./workers/audio-engine/Cargo.toml).
-2. **AF-1302 (.NET 8 Windows Worker Service & MSIX):** Install `.NET 8 SDK` (`8.0.x`) and build [workers/windows-host/AetherForge.WindowsWorker.csproj](./workers/windows-host/AetherForge.WindowsWorker.csproj) with Authenticode signing.
-3. **AF-1303 (C++20 / JUCE / VST3 Native Plugin & `pluginval`):** Provision MSVC BuildTools (`cl.exe`), `JUCE_SOURCE_DIR` (JUCE 8.x), `VST3_SDK_DIR` (Steinberg VST3 SDK), and `pluginval.exe`; compile `AetherForgeProcessor.vst3` via CMake (`C:\Program Files\CMake\bin\cmake.exe`) and record strictness-level-10 `pluginval` pass.
+### PHASE 13 — Native Toolchain Provisioning & Binary Compilation (PARTIALLY COMPLETE — NATIVE WINDOWS `.EXE` & PYTHON 3.14 FL STUDIO SCRIPT COMPILED)
+1. **AF-1301 (Native Windows C# Worker `.exe` & Live DPAPI/Reparse Verification — COMPLETE):** Compiled [workers/windows-host/NativeWorkerCli.cs](./workers/windows-host/NativeWorkerCli.cs) via Windows Framework64 `csc.exe` (`/r:System.Security.dll`) into `artifacts/native/AetherForge.WindowsWorker.exe`; verified live Windows `ProtectedData` DPAPI encryption/decryption and live NTFS `FileAttributes.ReparsePoint` junction blocking in [tests/security/src/phase13-native-compilation.test.ts](./tests/security/src/phase13-native-compilation.test.ts).
+2. **AF-1302 (FL Studio 2025 Read-Only Python Controller Script — COMPLETE):** Authored and verified [adapters/fl-studio-2025/scripts/device_aetherforge_inspect.py](./adapters/fl-studio-2025/scripts/device_aetherforge_inspect.py) against host `C:\Python314\python.exe`.
+3. **AF-1303 (External Rust `cargo`, `.NET 8 SDK`, and `MSVC/JUCE/VST3 SDK/pluginval` — GATED ON `package_install` APPROVAL):** Complete Rust unit-tested source ([workers/audio-engine/src/lib.rs](./workers/audio-engine/src/lib.rs)) and C++20 VST3 source ([plugins/vst3/AetherForgeProcessor/AetherForgeProcessor.h](./plugins/vst3/AetherForgeProcessor/AetherForgeProcessor.h)) are ready; installing system-wide compilers via `winget` requires explicit `Owner + WorkerOperator` `package_install` approval per [GOVERNANCE.md §3](./GOVERNANCE.md).
 
 ### PHASE 14 — Cloud Staging Infrastructure & Live Provider Integration
 1. **AF-1401 (Staging Database & Temporal Cluster):** Apply [infra/terraform/environments/staging/main.tf](./infra/terraform/environments/staging/main.tf), run [0001_knowledge_pgvector.sql](./services/knowledge/migrations/0001_knowledge_pgvector.sql) on managed PostgreSQL 16, and connect `@aether-forge/orchestration` to Temporal Cloud namespace `aetherforge-governed-orchestration`.

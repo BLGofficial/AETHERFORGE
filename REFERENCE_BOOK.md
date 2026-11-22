@@ -22,8 +22,9 @@ Direct empirical inspection of the Windows 11 workstation (`C:\Users\blago\Deskt
 | **CMake** | **INSTALLED** | `C:\Program Files\CMake\bin\cmake.exe` |
 | **C++20 Compiler (`cl.exe` / `clang++` / `g++`)** | **ABSENT (Constraint)** | Blocks native `.vst3` binary compile on this host until MSVC BuildTools or LLVM is installed |
 | **JUCE 8.x & Steinberg VST3 SDKs & `pluginval`** | **ABSENT (Constraint)** | `C:\JUCE`, `C:\VST_SDK`, and `pluginval.exe` not present; native `.vst3` target marked `BLOCKED_MISSING_PREREQUISITES` |
-| **.NET 8 SDK (`dotnet`)** | **ABSENT (Constraint)** | Windows `.NET` host stub present without SDK (`No .NET SDKs were found`) |
-| **Rust Toolchain (`cargo` / `rustc`)** | **ABSENT (Constraint)** | Not installed (`no cargo/rustc`) |
+| **.NET 8 SDK (`dotnet`) / Native C# (`csc.exe`)** | **`csc.exe` INSTALLED & VERIFIED; `.NET 8 SDK` ABSENT** | Compiled `artifacts/native/AetherForge.WindowsWorker.exe` via `C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe` with live Windows DPAPI & `FileAttributes.ReparsePoint` verification (`phase13-native-compilation.test.ts`) |
+| **Python 3.14 (FL Studio Scripting Runtime)** | **INSTALLED (`C:\Python314\python.exe`)** | Verified `adapters/fl-studio-2025/scripts/device_aetherforge_inspect.py` read-only controller script |
+| **Rust Toolchain (`cargo` / `rustc`)** | **ABSENT (Constraint)** | Not installed (`no cargo/rustc`); `workers/audio-engine/src/lib.rs` includes `gain_normalize_pcm16_wav` and `#[cfg(test)]` suite |
 
 ---
 

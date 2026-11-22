@@ -1,8 +1,6 @@
 //! AETHER FORGE — Local Rust Offline Audio Engine (ADR-0008)
 //! Implements deterministic WAV metadata inspection and gain normalization
 //! to a new atomic output file inside an explicitly granted workspace.
-//! Note: Local workstation check recorded 'no cargo/rustc'; bit-exact PCM16
-//! execution and golden WAV tolerance tests run via workers/audio-engine/src/index.ts.
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct WavMetadata {
@@ -65,4 +63,65 @@ pub fn parse_pcm16_wav_header(bytes: &[u8]) -> Result<(WavMetadata, usize, usize
         44,
         data_bytes,
     ))
+}
+
+pub fn gain_normalize_pcm16_wav(bytes: &[u8], target_peak_dbfs: f64) -> Result<(Vec<u8>, f64), &'static str> {
+    let (meta, data_offset, data_bytes) = parse_pcm16_wav_header(bytes)?;
+    let gain_db = if meta.peak_dbfs <= -120.0 {
+        0.0
+    } else {
+        target_peak_dbfs - meta.peak_dbfs
+    };
+    let linear_gain = 10.0_f64.powf(gain_db / 20.0);
+
+    let mut out = bytes.to_vec();
+    let mut out_max_abs: i32 = 0;
+
+    for chunk in out[data_offset..data_offset + data_bytes].chunks_exact_mut(2) {
+        let sample = i16::from_le_bytes([chunk[0], chunk[1]]) as f64;
+        let scaled = (sample * linear_gain).round() as i32;
+        let clamped = scaled.clamp(-32767, 32767);
+        if clamped.abs() > out_max_abs {
+            out_max_abs = clamped.abs();
+        }
+        let le = (clamped as i16).to_le_bytes();
+        chunk[0] = le[0];
+        chunk[1] = le[1];
+    }
+
+    let out_peak_dbfs = if out_max_abs == 0 {
+        -120.0
+    } else {
+        20.0 * ((out_max_abs as f64) / 32767.0).log10()
+    };
+
+    Ok((out, out_peak_dbfs))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_golden_pcm16_gain_normalize() {
+        let mut wav = vec![0u8; 44 + 4];
+        wav[0..4].copy_from_slice(b"RIFF");
+        wav[4..8].copy_from_slice(&40u32.to_le_bytes());
+        wav[8..12].copy_from_slice(b"WAVE");
+        wav[12..16].copy_from_slice(b"fmt ");
+        wav[16..20].copy_from_slice(&16u32.to_le_bytes());
+        wav[20..22].copy_from_slice(&1u16.to_le_bytes());
+        wav[22..24].copy_from_slice(&1u16.to_le_bytes());
+        wav[24..28].copy_from_slice(&48000u32.to_le_bytes());
+        wav[28..32].copy_from_slice(&96000u32.to_le_bytes());
+        wav[32..34].copy_from_slice(&2u16.to_le_bytes());
+        wav[34..36].copy_from_slice(&16u16.to_le_bytes());
+        wav[36..40].copy_from_slice(b"data");
+        wav[40..44].copy_from_slice(&4u32.to_le_bytes());
+        wav[44..46].copy_from_slice(&16384i16.to_le_bytes());
+        wav[46..48].copy_from_slice(&(-16384i16).to_le_bytes());
+
+        let (_, out_peak) = gain_normalize_pcm16_wav(&wav, -1.0).unwrap();
+        assert!((out_peak - -1.0).abs() < 0.01);
+    }
 }
