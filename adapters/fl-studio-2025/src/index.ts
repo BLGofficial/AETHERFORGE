@@ -125,6 +125,32 @@ export function parseFlpHeaderBuffer(
 
   const sha256 = createHash("sha256").update(buffer).digest("hex");
 
+  // Decode optional FLP_Version event (0xC7 / 199) at start of FLdt chunk (offset 22)
+  let savedByFlVersion: string | undefined;
+  if (buffer.byteLength >= 25 && buffer.readUInt8(22) === 0xc7) {
+    let varLen = 0;
+    let shift = 0;
+    let cursor = 23;
+    while (cursor < buffer.byteLength && shift < 28) {
+      const b = buffer.readUInt8(cursor);
+      cursor += 1;
+      varLen |= (b & 0x7f) << shift;
+      if ((b & 0x80) === 0) {
+        break;
+      }
+      shift += 7;
+    }
+    if (varLen > 0 && varLen <= 64 && cursor + varLen <= buffer.byteLength) {
+      const rawVer = buffer
+        .subarray(cursor, cursor + varLen)
+        .toString("utf8")
+        .replace(/\0+$/g, "");
+      if (/^[0-9]+(\.[0-9]+)+/.test(rawVer)) {
+        savedByFlVersion = rawVer;
+      }
+    }
+  }
+
   return {
     ok: true,
     value: {
@@ -134,6 +160,7 @@ export function parseFlpHeaderBuffer(
       ppq,
       dataChunkBytes: dataLen,
       sha256,
+      ...(savedByFlVersion !== undefined ? { savedByFlVersion } : {}),
     },
     evidence: [],
   };

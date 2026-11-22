@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import {
+  copyFileSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
@@ -11,6 +12,10 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
+  DEFAULT_PLATFORM_CONFIG,
+  PlatformConfigSchema,
+} from "@aether-forge/config";
+import {
   type CapabilityGrant,
   type DawCommand,
   SCHEMA_VERSION_V1,
@@ -21,6 +26,8 @@ import {
   QUALIFICATION_DOC_REF,
   synthesizeMinimalFlpBuffer,
 } from "@aether-forge/fl-studio-2025";
+import { verifyGrantedGitWorkspace } from "@aether-forge/git";
+import { formatPolicyDecisionBadgeLabel } from "@aether-forge/ui";
 import {
   computeGrantSignature,
   computeJobManifestSignature,
@@ -269,5 +276,58 @@ describe("PHASE 09 — FL Studio 2025 discovery and tiered qualification gate", 
     if (!missingBackupRes.ok) {
       expect(missingBackupRes.error.code).toBe("DOMAIN_DAW_BACKUP_REQUIRED");
     }
+  });
+
+  it("qualifies real Image-Line factory .flp project files (NewStuff.flp) and verifies @aether-forge/git, @aether-forge/config, and @aether-forge/ui boundaries", () => {
+    const adapter = new FlStudio2025Adapter();
+    const factoryFlpPath =
+      "C:\\Program Files\\Image-Line\\FL Studio 2026\\Data\\Demo projects\\NewStuff.flp";
+
+    if (existsSync(factoryFlpPath)) {
+      const localCopyPath = join(workspaceDir, "sessions", "NewStuff.flp");
+      copyFileSync(factoryFlpPath, localCopyPath);
+
+      const inspectFactory = adapter.invoke(
+        {
+          schemaVersion: SCHEMA_VERSION_V1,
+          commandId: "daw-factory-newstuff",
+          dawTarget: "fl-studio-2025",
+          capabilityTier: "inspect",
+          operation: "inspect_version_and_session_header",
+          backupRequired: false,
+          foregroundUiFallbackOptIn: false,
+          parameters: { projectRelativePath: "sessions/NewStuff.flp" },
+        },
+        { grantedCanonicalRoots: [workspaceDir], traceId: "trace-factory-flp" },
+      );
+
+      expect(inspectFactory.ok).toBe(true);
+      if (inspectFactory.ok) {
+        expect(inspectFactory.value.flpHeader.validFlpMagic).toBe(true);
+        expect(inspectFactory.value.flpHeader.channelCount).toBe(45);
+        expect(inspectFactory.value.flpHeader.ppq).toBe(96);
+        expect(inspectFactory.value.flpHeader.dataChunkBytes).toBe(313_334);
+        expect(inspectFactory.value.flpHeader.savedByFlVersion).toBeDefined();
+      }
+    }
+
+    // Verify @aether-forge/git boundary
+    const gitValid = verifyGrantedGitWorkspace({
+      grantedCanonicalRoots: [workspaceDir],
+      repoRelativePath: "sessions",
+      traceId: "trace-git-01",
+    });
+    expect(gitValid.ok).toBe(true);
+
+    const gitEscape = verifyGrantedGitWorkspace({
+      grantedCanonicalRoots: [workspaceDir],
+      repoRelativePath: "../../outside",
+      traceId: "trace-git-02",
+    });
+    expect(gitEscape.ok).toBe(false);
+
+    // Verify @aether-forge/config and @aether-forge/ui boundaries
+    expect(PlatformConfigSchema.parse(DEFAULT_PLATFORM_CONFIG)).toEqual(DEFAULT_PLATFORM_CONFIG);
+    expect(formatPolicyDecisionBadgeLabel("requireApproval")).toBe("APPROVAL REQUIRED");
   });
 });

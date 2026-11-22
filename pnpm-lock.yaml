@@ -290,6 +290,9 @@ importers:
       '@aether-forge/audit':
         specifier: workspace:*
         version: link:../../services/audit
+      '@aether-forge/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@aether-forge/contracts':
         specifier: workspace:*
         version: link:../../contracts
@@ -302,6 +305,9 @@ importers:
       '@aether-forge/fl-studio-2025':
         specifier: workspace:*
         version: link:../../adapters/fl-studio-2025
+      '@aether-forge/git':
+        specifier: workspace:*
+        version: link:../../adapters/git
       '@aether-forge/knowledge':
         specifier: workspace:*
         version: link:../../services/knowledge
@@ -323,6 +329,9 @@ importers:
       '@aether-forge/test-fixtures':
         specifier: workspace:*
         version: link:../../packages/test-fixtures
+      '@aether-forge/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@aether-forge/vst3':
         specifier: workspace:*
         version: link:../../plugins/vst3

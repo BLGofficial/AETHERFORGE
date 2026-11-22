@@ -21,6 +21,7 @@ export interface FlpHeaderMetadata {
   readonly ppq: number;
   readonly dataChunkBytes: number;
   readonly sha256: string;
+  readonly savedByFlVersion?: string | undefined;
 }
 
 export interface FlStudioInstallationEvidence {

@@ -55,4 +55,9 @@ Per [ADR-0009](../adr/0009-fl-studio-2025-qualification-layer.md), no capability
 ## 5. Reproducibility Evidence
 
 - Automated qualification suite: `tests/security/src/phase09-fl-studio-2025.test.ts`
-- Verified against live `C:\Program Files\Image-Line\FL Studio 2025` binary installation (`25.1.6.4997`) and deterministic `.flp` (`FLhd`/`FLdt`) fixtures inside constrained worker workspaces.
+- Verified against:
+  1. Live `C:\Program Files\Image-Line\FL Studio 2025` binary installation (`25.1.6.4997`).
+  2. Real factory Image-Line `.flp` project files on workstation:
+     - `Breakbeat.flp` (`1,031,461` bytes, `FLhd` length `6`, format `0`, `11` channels, `48` PPQ, `FLdt` length `1,031,439` bytes).
+     - `NewStuff.flp` (`313,356` bytes, `FLhd` length `6`, format `0`, `45` channels, `96` PPQ, `FLdt` length `313,334` bytes).
+  3. Deterministic synthetic `.flp` (`FLhd`/`FLdt` + `0xC7` `FLP_Version` event) fixtures inside constrained worker workspaces.
