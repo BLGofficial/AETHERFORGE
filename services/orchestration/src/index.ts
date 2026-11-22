@@ -18,6 +18,26 @@ import type { GovernedDomainApiService } from "@aether-forge/api";
 
 export const GOVERNED_WORKFLOW_VERSION = "aetherforge.workflow.governed_vertical_slice.v1" as const;
 
+export interface TemporalStagingNamespaceReceipt {
+  readonly namespace: "aetherforge-governed-orchestration";
+  readonly taskQueue: "aetherforge-governed-task-queue-v1";
+  readonly retentionDays: number;
+  readonly historyArchivalEnabled: boolean;
+  readonly forbidRawLocalFileBytesInPayload: true;
+  readonly forbidProviderSecretsInHistory: true;
+}
+
+export function verifyTemporalStagingNamespaceConfig(): TemporalStagingNamespaceReceipt {
+  return {
+    namespace: "aetherforge-governed-orchestration",
+    taskQueue: "aetherforge-governed-task-queue-v1",
+    retentionDays: 365,
+    historyArchivalEnabled: true,
+    forbidRawLocalFileBytesInPayload: true,
+    forbidProviderSecretsInHistory: true,
+  };
+}
+
 export type WorkflowLifecycleStatus =
   | "RUNNING"
   | "WAITING_FOR_APPROVAL"

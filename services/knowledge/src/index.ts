@@ -1,4 +1,7 @@
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   type DataClassification,
   type GroundedContextChunk,
@@ -34,6 +37,39 @@ const UNSAFE_CONTENT_PATTERNS: ReadonlyArray<{ readonly reason: string; readonly
     regex: /(IGNORE\s+ALL\s+PREVIOUS\s+INSTRUCTIONS|SYSTEM_OVERRIDE_BYPASS_POLICY)/i,
   },
 ];
+
+export interface PostgresMigrationVerificationReceipt {
+  readonly migrationId: "0001_knowledge_pgvector";
+  readonly sqlSha256: string;
+  readonly pgvectorExtensionDeclared: boolean;
+  readonly cascadeDeleteDeclared: boolean;
+  readonly verifiedTables: readonly string[];
+}
+
+export function verifyPostgresPgvectorMigrationSql(): PostgresMigrationVerificationReceipt {
+  const currentDir = dirname(fileURLToPath(import.meta.url));
+  const sqlPath = resolve(currentDir, "../migrations/0001_knowledge_pgvector.sql");
+  const sql = readFileSync(sqlPath, "utf8");
+  const sqlSha256 = createHash("sha256").update(sql, "utf8").digest("hex");
+
+  const pgvectorExtensionDeclared = /CREATE\s+EXTENSION\s+IF\s+NOT\s+EXISTS\s+vector/i.test(sql);
+  const cascadeDeleteDeclared = /REFERENCES\s+knowledge_sources\(source_id\)\s+ON\s+DELETE\s+CASCADE/i.test(sql);
+  const verifiedTables: string[] = [];
+  if (/CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS\s+knowledge_sources/i.test(sql)) {
+    verifiedTables.push("knowledge_sources");
+  }
+  if (/CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS\s+knowledge_chunks/i.test(sql)) {
+    verifiedTables.push("knowledge_chunks");
+  }
+
+  return {
+    migrationId: "0001_knowledge_pgvector",
+    sqlSha256,
+    pgvectorExtensionDeclared,
+    cascadeDeleteDeclared,
+    verifiedTables,
+  };
+}
 
 /**
  * Local/test immutable content-addressable object store (ADR-0007).

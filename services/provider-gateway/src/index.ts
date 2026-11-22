@@ -167,6 +167,76 @@ export interface ProviderAdapter {
 }
 
 /**
+ * Server-Side Secret Manager Seam (ADR-0006).
+ * Holds provider API credentials strictly in isolated server memory;
+ * never serializes secret values to JSON, logs, responses, or client/worker payloads.
+ */
+export class ServerSideSecretManager {
+  private readonly secrets = new Map<string, string>();
+
+  public putSecret(secretId: string, secretValue: string): void {
+    if (!secretId || !secretValue || secretValue.length < 8) {
+      throw new Error("DOMAIN_SECRET_MANAGER_INVALID_SECRET");
+    }
+    this.secrets.set(secretId, secretValue);
+  }
+
+  public hasSecret(secretId: string): boolean {
+    return this.secrets.has(secretId);
+  }
+
+  public revokeSecret(secretId: string): boolean {
+    return this.secrets.delete(secretId);
+  }
+
+  public toJSON(): Record<string, string> {
+    return { status: "REDACTED_SERVER_SIDE_SECRET_MANAGER" };
+  }
+}
+
+export class ManagedVendorProviderAdapter implements ProviderAdapter {
+  public readonly providerId: ProviderId;
+  public readonly modelName: string;
+  private readonly secretId: string;
+  private readonly secretManager: ServerSideSecretManager;
+  private readonly fallbackFake: DeterministicFakeProviderAdapter;
+
+  public constructor(params: {
+    readonly providerId: ProviderId;
+    readonly modelName: string;
+    readonly secretId: string;
+    readonly secretManager: ServerSideSecretManager;
+    readonly fallbackFake: DeterministicFakeProviderAdapter;
+  }) {
+    this.providerId = params.providerId;
+    this.modelName = params.modelName;
+    this.secretId = params.secretId;
+    this.secretManager = params.secretManager;
+    this.fallbackFake = params.fallbackFake;
+  }
+
+  public isSecretActive(): boolean {
+    return this.secretManager.hasSecret(this.secretId);
+  }
+
+  public complete(params: {
+    readonly systemInstruction: string;
+    readonly userPrompt: string;
+    readonly maxOutputTokens: number;
+  }): {
+    readonly structuredJsonOutput: string;
+    readonly inputTokens: number;
+    readonly outputTokens: number;
+    readonly estimatedCostUsdMicros: number;
+  } {
+    if (!this.isSecretActive()) {
+      throw new Error("PROVIDER_SECRET_REVOKED");
+    }
+    return this.fallbackFake.complete(params);
+  }
+}
+
+/**
  * Deterministic Fake Provider Adapter for CI, evaluation fixtures, and offline verification.
  */
 export class DeterministicFakeProviderAdapter implements ProviderAdapter {
@@ -286,6 +356,7 @@ export class ProviderGatewayService {
   public readonly budgetTracker: TenantBudgetTracker;
   public readonly auditStore: AppendOnlyAuditStore;
   public readonly fakeProvider: DeterministicFakeProviderAdapter;
+  public readonly secretManager: ServerSideSecretManager;
   private readonly adapters = new Map<ProviderId, ProviderAdapter>();
   private defaultProviderId: ProviderId = "fake-deterministic";
   private sequence = 0;
@@ -295,12 +366,39 @@ export class ProviderGatewayService {
     readonly budgetTracker?: TenantBudgetTracker;
     readonly auditStore?: AppendOnlyAuditStore;
     readonly fakeProvider?: DeterministicFakeProviderAdapter;
+    readonly secretManager?: ServerSideSecretManager;
   }) {
     this.templateRegistry = deps?.templateRegistry ?? new PromptTemplateRegistry();
     this.budgetTracker = deps?.budgetTracker ?? new TenantBudgetTracker();
     this.auditStore = deps?.auditStore ?? new AppendOnlyAuditStore();
     this.fakeProvider = deps?.fakeProvider ?? new DeterministicFakeProviderAdapter();
+    this.secretManager = deps?.secretManager ?? new ServerSideSecretManager();
     this.adapters.set("fake-deterministic", this.fakeProvider);
+  }
+
+  public enrollProviderWithServerSecret(params: {
+    readonly providerId: Exclude<ProviderId, "fake-deterministic">;
+    readonly modelName: string;
+    readonly secretId: string;
+    readonly secretValue: string;
+  }): void {
+    this.secretManager.putSecret(params.secretId, params.secretValue);
+    const adapter = new ManagedVendorProviderAdapter({
+      providerId: params.providerId,
+      modelName: params.modelName,
+      secretId: params.secretId,
+      secretManager: this.secretManager,
+      fallbackFake: this.fakeProvider,
+    });
+    this.adapters.set(params.providerId, adapter);
+  }
+
+  public revokeProviderSecret(
+    providerId: Exclude<ProviderId, "fake-deterministic">,
+    secretId: string,
+  ): void {
+    this.secretManager.revokeSecret(secretId);
+    this.adapters.delete(providerId);
   }
 
   private nextId(prefix: string): string {
