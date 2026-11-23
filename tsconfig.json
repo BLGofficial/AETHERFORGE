@@ -14,6 +14,9 @@
     "workers/*/src/**/*.ts",
     "plugins/*/src/**/*.ts",
     "scripts/**/*.ts",
-    "tests/*/src/**/*.ts"
+    "tests/*/src/**/*.ts",
+    "SPECIFICATION_SCHEMAS/**/*.ts",
+    "SYSTEM_COMPILER/**/*.ts",
+    "COMPILER_TESTS/**/*.ts"
   ]
 }

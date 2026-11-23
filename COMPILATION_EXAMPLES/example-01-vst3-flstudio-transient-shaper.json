@@ -1,0 +1,706 @@
+{
+  "schemaVersion": "1.0.0",
+  "specificationId": "SPEC-VST3-FLSTUDIO-TRANSIENT-SHAPER-V1.0.0",
+  "projectId": "vst3-flstudio-transient-shaper",
+  "tenantId": "tenant-audio-labs",
+  "specificationVersion": "1.0.0",
+  "compiledAt": "2026-11-23T02:00:00.000Z",
+  "specificationSha256": "793DBF0D2A08D46CF4020A8BBDC362387F298DFA53CF27CD4C6DC35F49E05CDB",
+  "validation": {
+    "isValid": true,
+    "status": "COMPILED_VALID",
+    "missingDependencies": [],
+    "contradictoryRequirements": [],
+    "unsupportedCapabilities": [],
+    "blockingAmbiguities": [],
+    "traceabilityCompletenessRate": 1
+  },
+  "pipelineStages": {
+    "stage01Intent": {
+      "primaryGoal": "AETHER FORGE VST3 Transient Shaper & FL Studio 2025 Companion",
+      "projectCategory": "REALTIME_DSP_AND_VST3_AUDIO_SYSTEM",
+      "targetPersonas": [
+        "Principal Systems Architect",
+        "DSP & Audio Plugin Engineer",
+        "Security & Verification Reviewer"
+      ],
+      "businessOutcomes": [
+        "Deterministic, machine-verifiable specification and execution DAG",
+        "Zero-Trust OPA policy enforcement with immutable hash-chained audit evidence",
+        "100% 4-way requirement-to-component-to-task-to-test traceability"
+      ],
+      "targetAutonomyCap": "L3",
+      "sourceInputIds": [
+        "EX01-IN-01",
+        "EX01-IN-02",
+        "EX01-IN-03"
+      ],
+      "inputTypesProcessed": [
+        "PRODUCT_DIRECTION",
+        "NATURAL_LANGUAGE_REQUIREMENTS",
+        "TECHNICAL_DOCUMENT"
+      ]
+    },
+    "stage02Requirements": [
+      {
+        "requirementId": "REQ-F-1001",
+        "kind": "FUNCTIONAL",
+        "statement": "Decode FL Studio 2025 .flp FLhd and FLdt binary chunks non-destructively.",
+        "metricName": "mutatedSourceBytes",
+        "thresholdOperator": "==",
+        "thresholdValue": 0,
+        "unit": "bytes",
+        "actionTier": "0",
+        "autonomyLevel": "L3",
+        "requestedCapabilities": [
+          "flp_readonly_binary_inspection"
+        ],
+        "constraints": [],
+        "dependsOnRequirementIds": [],
+        "sourceInputId": "EX01-IN-01"
+      },
+      {
+        "requirementId": "REQ-NF-1001",
+        "kind": "NON_FUNCTIONAL",
+        "statement": "Real-time C++20 VST3 callback heap allocations after prepare() MUST equal 0 bytes.",
+        "metricName": "realtimeHeapAllocations",
+        "thresholdOperator": "==",
+        "thresholdValue": 0,
+        "unit": "bytes",
+        "actionTier": "1",
+        "autonomyLevel": "L3",
+        "requestedCapabilities": [
+          "realtime_audio_callback",
+          "vst3_atomic_parameter_core"
+        ],
+        "constraints": [
+          "ZERO_ALLOCATION_REALTIME_THREAD"
+        ],
+        "dependsOnRequirementIds": [
+          "REQ-F-1001"
+        ],
+        "sourceInputId": "EX01-IN-02"
+      },
+      {
+        "requirementId": "REQ-NF-1002",
+        "kind": "NON_FUNCTIONAL",
+        "statement": "Offline DSP limiter true peak output MUST NOT exceed -0.1 dBTP.",
+        "metricName": "truePeakDbtp",
+        "thresholdOperator": "<=",
+        "thresholdValue": -0.1,
+        "unit": "dBTP",
+        "actionTier": "1",
+        "autonomyLevel": "L3",
+        "requestedCapabilities": [
+          "offline_biquad_dsp_render"
+        ],
+        "constraints": [],
+        "dependsOnRequirementIds": [
+          "REQ-NF-1001"
+        ],
+        "sourceInputId": "EX01-IN-03"
+      }
+    ],
+    "stage03Ambiguities": [],
+    "stage04Domains": {
+      "primaryDomain": "AI_DAW_AGENTIC_SYSTEMS",
+      "activeDomains": [
+        "AI_DAW_AGENTIC_SYSTEMS",
+        "CPP_NATIVE_ENGINEERING",
+        "VST3_PLUGIN_ENGINEERING",
+        "AUDIO_PROCESSING_DSP",
+        "TESTING_VERIFICATION_DEPLOYMENT"
+      ],
+      "assignedSpecialistAgents": [
+        "AGT-01",
+        "AGT-02",
+        "AGT-03",
+        "AGT-04",
+        "AGT-07",
+        "AGT-08",
+        "AGT-09",
+        "AGT-10",
+        "AGT-13",
+        "AGT-14",
+        "AGT-15",
+        "AGT-16",
+        "AGT-18",
+        "AGT-19"
+      ],
+      "domainRationale": {
+        "AI_DAW_AGENTIC_SYSTEMS": "Activated by capability 'flp_readonly_binary_inspection' in requirement REQ-F-1001.",
+        "CPP_NATIVE_ENGINEERING": "Activated by capability 'realtime_audio_callback' in requirement REQ-NF-1001.",
+        "VST3_PLUGIN_ENGINEERING": "Activated by capability 'vst3_atomic_parameter_core' in requirement REQ-NF-1001.",
+        "AUDIO_PROCESSING_DSP": "Activated by capability 'offline_biquad_dsp_render' in requirement REQ-NF-1002.",
+        "TESTING_VERIFICATION_DEPLOYMENT": "Mandatory domain for AGT-15 QA, AGT-16 Performance, and AGT-19 Independent Verification."
+      }
+    },
+    "stage05Capabilities": [
+      {
+        "capabilityKey": "flp_readonly_binary_inspection",
+        "requirementId": "REQ-F-1001",
+        "disposition": "NATIVE_IMPLEMENTED",
+        "providingModulePath": "adapters/fl-studio-2025",
+        "ownerAgentId": "AGT-10",
+        "requiredApprovalRole": "NONE",
+        "notes": "Non-destructive FLhd/FLdt binary inspection and Python MIDI controller script generation."
+      },
+      {
+        "capabilityKey": "realtime_audio_callback",
+        "requirementId": "REQ-NF-1001",
+        "disposition": "NATIVE_IMPLEMENTED",
+        "providingModulePath": "plugins/vst3/AetherForgeProcessor",
+        "ownerAgentId": "AGT-08",
+        "requiredApprovalRole": "NONE",
+        "notes": "Zero-allocation, lock-free C++20 real-time audio processing callback."
+      },
+      {
+        "capabilityKey": "vst3_atomic_parameter_core",
+        "requirementId": "REQ-NF-1001",
+        "disposition": "NATIVE_IMPLEMENTED",
+        "providingModulePath": "plugins/vst3/src",
+        "ownerAgentId": "AGT-09",
+        "requiredApprovalRole": "NONE",
+        "notes": "Steinberg VST3 parameter clamping, state serialization, and real-time static audit."
+      },
+      {
+        "capabilityKey": "offline_biquad_dsp_render",
+        "requirementId": "REQ-NF-1002",
+        "disposition": "NATIVE_IMPLEMENTED",
+        "providingModulePath": "workers/audio-engine",
+        "ownerAgentId": "AGT-07",
+        "requiredApprovalRole": "NONE",
+        "notes": "Deterministic 64-bit float offline DSP chain and ITU-R BS.1770-4 loudness analyzer."
+      }
+    ],
+    "stage06ResearchRequests": [
+      {
+        "researchRequestId": "RES-0001",
+        "assignedAgentId": "AGT-02",
+        "domain": "AI_DAW_AGENTIC_SYSTEMS",
+        "topic": "Verify host toolchain & specification provenance for capability 'flp_readonly_binary_inspection'",
+        "verificationMethod": "HOST_BINARY_SHA256_PROBE",
+        "requiredForRequirementIds": [
+          "REQ-F-1001"
+        ],
+        "epistemicDefaultIfUnavailable": "unverified_assumptions"
+      },
+      {
+        "researchRequestId": "RES-0002",
+        "assignedAgentId": "AGT-02",
+        "domain": "VST3_PLUGIN_ENGINEERING",
+        "topic": "Verify host toolchain & specification provenance for capability 'vst3_atomic_parameter_core'",
+        "verificationMethod": "OFFLINE_SPEC_CITATION_LOOKUP",
+        "requiredForRequirementIds": [
+          "REQ-NF-1001"
+        ],
+        "epistemicDefaultIfUnavailable": "unverified_assumptions"
+      }
+    ],
+    "stage07Architecture": {
+      "architecturePattern": "REALTIME_AUDIO_ISOLATED_HYBRID",
+      "activeSubsystems": [
+        "ARCH-01",
+        "ARCH-03",
+        "ARCH-04",
+        "ARCH-05",
+        "ARCH-07",
+        "ARCH-09",
+        "ARCH-11"
+      ],
+      "trustBoundaries": [
+        "TB-1",
+        "TB-2",
+        "TB-3",
+        "TB-4"
+      ],
+      "applicableAdrs": [
+        "ADR-0001",
+        "ADR-0003",
+        "ADR-0004",
+        "ADR-0008",
+        "ADR-0009",
+        "ADR-0010"
+      ],
+      "realtimeIsolationEnforced": true,
+      "opaDefaultDenyEnforced": true
+    },
+    "stage08Components": [
+      {
+        "componentId": "COMP-0001",
+        "name": "FlStudio2025ReadOnlyAdapter",
+        "domain": "AI_DAW_AGENTIC_SYSTEMS",
+        "modulePath": "adapters/fl-studio-2025",
+        "ownerAgentId": "AGT-10",
+        "exclusiveWriteGlobs": [
+          "adapters/fl-studio-2025/**",
+          "adapters/daw-contract/**"
+        ],
+        "readOnlyGlobs": [
+          "contracts/**"
+        ],
+        "satisfiesRequirementIds": [
+          "REQ-F-1001"
+        ],
+        "dependsOnComponentIds": [],
+        "publicInterfaces": [
+          "FlStudio2025Adapter.inspectFlpFile",
+          "FlStudio2025Adapter.verifyInstallation"
+        ]
+      },
+      {
+        "componentId": "COMP-0002",
+        "name": "AetherForgeRealtimeCppCore",
+        "domain": "CPP_NATIVE_ENGINEERING",
+        "modulePath": "plugins/vst3/AetherForgeProcessor",
+        "ownerAgentId": "AGT-08",
+        "exclusiveWriteGlobs": [
+          "plugins/vst3/AetherForgeProcessor/**"
+        ],
+        "readOnlyGlobs": [
+          "contracts/**"
+        ],
+        "satisfiesRequirementIds": [
+          "REQ-NF-1001"
+        ],
+        "dependsOnComponentIds": [
+          "COMP-0001"
+        ],
+        "publicInterfaces": [
+          "AetherForgeProcessor::prepare",
+          "AetherForgeProcessor::processSamples"
+        ]
+      },
+      {
+        "componentId": "COMP-0003",
+        "name": "Vst3ProcessorBoundary",
+        "domain": "VST3_PLUGIN_ENGINEERING",
+        "modulePath": "plugins/vst3/src",
+        "ownerAgentId": "AGT-09",
+        "exclusiveWriteGlobs": [
+          "plugins/vst3/src/**"
+        ],
+        "readOnlyGlobs": [
+          "plugins/vst3/AetherForgeProcessor/**",
+          "contracts/**"
+        ],
+        "satisfiesRequirementIds": [
+          "REQ-NF-1001"
+        ],
+        "dependsOnComponentIds": [
+          "COMP-0001"
+        ],
+        "publicInterfaces": [
+          "AetherForgeVst3Processor.processBlock",
+          "auditCppSourceForRealtimeHazards"
+        ]
+      },
+      {
+        "componentId": "COMP-0004",
+        "name": "OfflineAudioDspEngine",
+        "domain": "AUDIO_PROCESSING_DSP",
+        "modulePath": "workers/audio-engine",
+        "ownerAgentId": "AGT-07",
+        "exclusiveWriteGlobs": [
+          "workers/audio-engine/**"
+        ],
+        "readOnlyGlobs": [
+          "contracts/**"
+        ],
+        "satisfiesRequirementIds": [
+          "REQ-NF-1002"
+        ],
+        "dependsOnComponentIds": [
+          "COMP-0002"
+        ],
+        "publicInterfaces": [
+          "OfflineAudioDspEngine.renderAndAnalyze"
+        ]
+      }
+    ],
+    "stage09DependencyGraph": {
+      "componentNodes": [
+        "COMP-0001",
+        "COMP-0002",
+        "COMP-0003",
+        "COMP-0004"
+      ],
+      "requirementNodes": [
+        "REQ-F-1001",
+        "REQ-NF-1001",
+        "REQ-NF-1002"
+      ],
+      "edges": [
+        {
+          "fromId": "REQ-F-1001",
+          "toId": "REQ-NF-1001",
+          "kind": "REQUIREMENT_DEPENDENCY"
+        },
+        {
+          "fromId": "REQ-NF-1001",
+          "toId": "REQ-NF-1002",
+          "kind": "REQUIREMENT_DEPENDENCY"
+        },
+        {
+          "fromId": "COMP-0001",
+          "toId": "COMP-0002",
+          "kind": "COMPONENT_DEPENDENCY"
+        },
+        {
+          "fromId": "COMP-0001",
+          "toId": "COMP-0003",
+          "kind": "COMPONENT_DEPENDENCY"
+        },
+        {
+          "fromId": "COMP-0002",
+          "toId": "COMP-0004",
+          "kind": "COMPONENT_DEPENDENCY"
+        }
+      ],
+      "topologicalComponentOrder": [
+        "COMP-0001",
+        "COMP-0002",
+        "COMP-0003",
+        "COMP-0004"
+      ],
+      "topologicalRequirementOrder": [
+        "REQ-F-1001",
+        "REQ-NF-1001",
+        "REQ-NF-1002"
+      ],
+      "hasCycles": false,
+      "cycleDescriptions": [],
+      "missingDependencies": []
+    },
+    "stage10Workflow": {
+      "workflowId": "WF-VST3-FLSTUDIO-TRANSIENT-SHAPER",
+      "maxDelegationDepth": 2,
+      "disjointParallelWriteSetsVerified": true,
+      "tasks": [
+        {
+          "taskId": "TASK-0001",
+          "title": "Implement and verify FlStudio2025ReadOnlyAdapter (adapters/fl-studio-2025)",
+          "componentId": "COMP-0001",
+          "requirementIds": [
+            "REQ-F-1001"
+          ],
+          "assignedAgentId": "AGT-10",
+          "actionTier": "1",
+          "fenceTokenOrder": 1,
+          "exclusiveWriteGlobs": [
+            "adapters/fl-studio-2025/**",
+            "adapters/daw-contract/**"
+          ],
+          "dependsOnTaskIds": [],
+          "requiresHumanApproval": false,
+          "verificationCheck": "pnpm typecheck && pnpm test (verifying FlStudio2025Adapter.inspectFlpFile, FlStudio2025Adapter.verifyInstallation)",
+          "rollbackHint": "git checkout -- adapters/fl-studio-2025/** adapters/daw-contract/**"
+        },
+        {
+          "taskId": "TASK-0002",
+          "title": "Implement and verify AetherForgeRealtimeCppCore (plugins/vst3/AetherForgeProcessor)",
+          "componentId": "COMP-0002",
+          "requirementIds": [
+            "REQ-NF-1001"
+          ],
+          "assignedAgentId": "AGT-08",
+          "actionTier": "1",
+          "fenceTokenOrder": 2,
+          "exclusiveWriteGlobs": [
+            "plugins/vst3/AetherForgeProcessor/**"
+          ],
+          "dependsOnTaskIds": [
+            "TASK-0001"
+          ],
+          "requiresHumanApproval": false,
+          "verificationCheck": "pnpm typecheck && pnpm test (verifying AetherForgeProcessor::prepare, AetherForgeProcessor::processSamples)",
+          "rollbackHint": "git checkout -- plugins/vst3/AetherForgeProcessor/**"
+        },
+        {
+          "taskId": "TASK-0003",
+          "title": "Implement and verify Vst3ProcessorBoundary (plugins/vst3/src)",
+          "componentId": "COMP-0003",
+          "requirementIds": [
+            "REQ-NF-1001"
+          ],
+          "assignedAgentId": "AGT-09",
+          "actionTier": "1",
+          "fenceTokenOrder": 3,
+          "exclusiveWriteGlobs": [
+            "plugins/vst3/src/**"
+          ],
+          "dependsOnTaskIds": [
+            "TASK-0001"
+          ],
+          "requiresHumanApproval": false,
+          "verificationCheck": "pnpm typecheck && pnpm test (verifying AetherForgeVst3Processor.processBlock, auditCppSourceForRealtimeHazards)",
+          "rollbackHint": "git checkout -- plugins/vst3/src/**"
+        },
+        {
+          "taskId": "TASK-0004",
+          "title": "Implement and verify OfflineAudioDspEngine (workers/audio-engine)",
+          "componentId": "COMP-0004",
+          "requirementIds": [
+            "REQ-NF-1002"
+          ],
+          "assignedAgentId": "AGT-07",
+          "actionTier": "1",
+          "fenceTokenOrder": 4,
+          "exclusiveWriteGlobs": [
+            "workers/audio-engine/**"
+          ],
+          "dependsOnTaskIds": [
+            "TASK-0002"
+          ],
+          "requiresHumanApproval": false,
+          "verificationCheck": "pnpm typecheck && pnpm test (verifying OfflineAudioDspEngine.renderAndAnalyze)",
+          "rollbackHint": "git checkout -- workers/audio-engine/**"
+        },
+        {
+          "taskId": "TASK-0005",
+          "title": "Independent Separation-of-Duty Verification Gate (AGT-19)",
+          "componentId": "COMP-0001",
+          "requirementIds": [
+            "REQ-F-1001",
+            "REQ-NF-1001",
+            "REQ-NF-1002"
+          ],
+          "assignedAgentId": "AGT-19",
+          "actionTier": "0",
+          "fenceTokenOrder": 5,
+          "exclusiveWriteGlobs": [],
+          "dependsOnTaskIds": [
+            "TASK-0001",
+            "TASK-0002",
+            "TASK-0003",
+            "TASK-0004"
+          ],
+          "requiresHumanApproval": false,
+          "verificationCheck": "Recompute disk SHA-256 hashes, verify lease boundaries, and run full pnpm test suite",
+          "rollbackHint": "Read-only verification step; reject workflow on FAIL verdict."
+        }
+      ],
+      "terminalVerificationTaskId": "TASK-0005"
+    },
+    "stage11TestSpecifications": [
+      {
+        "testId": "TEST-0001",
+        "title": "Verify FlStudio2025ReadOnlyAdapter against REQ-F-1001",
+        "suiteCategory": "AUDIO_DSP",
+        "assignedAgentId": "AGT-15",
+        "verifiesRequirementIds": [
+          "REQ-F-1001"
+        ],
+        "verifiesComponentIds": [
+          "COMP-0001"
+        ],
+        "verifiesTaskIds": [
+          "TASK-0001"
+        ],
+        "testFilePath": "tests/audio_dsp/src/comp-0001-verification.test.ts",
+        "deterministicOracle": "REQ-F-1001: mutatedSourceBytes == 0 bytes"
+      },
+      {
+        "testId": "TEST-0002",
+        "title": "Verify AetherForgeRealtimeCppCore against REQ-NF-1001",
+        "suiteCategory": "REALTIME_WCET",
+        "assignedAgentId": "AGT-16",
+        "verifiesRequirementIds": [
+          "REQ-NF-1001"
+        ],
+        "verifiesComponentIds": [
+          "COMP-0002"
+        ],
+        "verifiesTaskIds": [
+          "TASK-0002"
+        ],
+        "testFilePath": "tests/realtime_wcet/src/comp-0002-verification.test.ts",
+        "deterministicOracle": "REQ-NF-1001: realtimeHeapAllocations == 0 bytes"
+      },
+      {
+        "testId": "TEST-0003",
+        "title": "Verify Vst3ProcessorBoundary against REQ-NF-1001",
+        "suiteCategory": "REALTIME_WCET",
+        "assignedAgentId": "AGT-16",
+        "verifiesRequirementIds": [
+          "REQ-NF-1001"
+        ],
+        "verifiesComponentIds": [
+          "COMP-0003"
+        ],
+        "verifiesTaskIds": [
+          "TASK-0003"
+        ],
+        "testFilePath": "tests/realtime_wcet/src/comp-0003-verification.test.ts",
+        "deterministicOracle": "REQ-NF-1001: realtimeHeapAllocations == 0 bytes"
+      },
+      {
+        "testId": "TEST-0004",
+        "title": "Verify OfflineAudioDspEngine against REQ-NF-1002",
+        "suiteCategory": "AUDIO_DSP",
+        "assignedAgentId": "AGT-15",
+        "verifiesRequirementIds": [
+          "REQ-NF-1002"
+        ],
+        "verifiesComponentIds": [
+          "COMP-0004"
+        ],
+        "verifiesTaskIds": [
+          "TASK-0004"
+        ],
+        "testFilePath": "tests/audio_dsp/src/comp-0004-verification.test.ts",
+        "deterministicOracle": "REQ-NF-1002: truePeakDbtp <= -0.1 dBTP"
+      },
+      {
+        "testId": "TEST-0005",
+        "title": "Independent End-to-End Artifact SHA-256 & Lease Boundary Verification",
+        "suiteCategory": "INTEGRATION_E2E",
+        "assignedAgentId": "AGT-19",
+        "verifiesRequirementIds": [
+          "REQ-F-1001",
+          "REQ-NF-1001",
+          "REQ-NF-1002"
+        ],
+        "verifiesComponentIds": [
+          "COMP-0001",
+          "COMP-0002",
+          "COMP-0003",
+          "COMP-0004"
+        ],
+        "verifiesTaskIds": [
+          "TASK-0005"
+        ],
+        "testFilePath": "COMPILER_TESTS/system-compiler.test.ts",
+        "deterministicOracle": "100% disk SHA-256 match, 0 out-of-lease mutations, exitCode == 0"
+      }
+    ],
+    "stage12AcceptanceCriteria": [
+      {
+        "criterionId": "AC-0001",
+        "requirementIds": [
+          "REQ-F-1001"
+        ],
+        "componentIds": [
+          "COMP-0001"
+        ],
+        "taskIds": [
+          "TASK-0001",
+          "TASK-0005"
+        ],
+        "testIds": [
+          "TEST-0001",
+          "TEST-0005"
+        ],
+        "gateCondition": "Verify REQ-F-1001 (mutatedSourceBytes == 0 bytes) with exitCode === 0 and signed AGT-19 attestation.",
+        "verifierAgentId": "AGT-19"
+      },
+      {
+        "criterionId": "AC-0002",
+        "requirementIds": [
+          "REQ-NF-1001"
+        ],
+        "componentIds": [
+          "COMP-0002",
+          "COMP-0003"
+        ],
+        "taskIds": [
+          "TASK-0002",
+          "TASK-0003",
+          "TASK-0005"
+        ],
+        "testIds": [
+          "TEST-0002",
+          "TEST-0003",
+          "TEST-0005"
+        ],
+        "gateCondition": "Verify REQ-NF-1001 (realtimeHeapAllocations == 0 bytes) with exitCode === 0 and signed AGT-19 attestation.",
+        "verifierAgentId": "AGT-19"
+      },
+      {
+        "criterionId": "AC-0003",
+        "requirementIds": [
+          "REQ-NF-1002"
+        ],
+        "componentIds": [
+          "COMP-0004"
+        ],
+        "taskIds": [
+          "TASK-0004",
+          "TASK-0005"
+        ],
+        "testIds": [
+          "TEST-0004",
+          "TEST-0005"
+        ],
+        "gateCondition": "Verify REQ-NF-1002 (truePeakDbtp <= -0.1 dBTP) with exitCode === 0 and signed AGT-19 attestation.",
+        "verifierAgentId": "AGT-19"
+      }
+    ]
+  },
+  "traceabilityMatrix": {
+    "rows": [
+      {
+        "requirementId": "REQ-F-1001",
+        "componentIds": [
+          "COMP-0001"
+        ],
+        "taskIds": [
+          "TASK-0001",
+          "TASK-0005"
+        ],
+        "testIds": [
+          "TEST-0001",
+          "TEST-0005"
+        ],
+        "acceptanceCriteriaIds": [
+          "AC-0001"
+        ],
+        "forwardAndBackwardComplete": true
+      },
+      {
+        "requirementId": "REQ-NF-1001",
+        "componentIds": [
+          "COMP-0002",
+          "COMP-0003"
+        ],
+        "taskIds": [
+          "TASK-0002",
+          "TASK-0003",
+          "TASK-0005"
+        ],
+        "testIds": [
+          "TEST-0002",
+          "TEST-0003",
+          "TEST-0005"
+        ],
+        "acceptanceCriteriaIds": [
+          "AC-0002"
+        ],
+        "forwardAndBackwardComplete": true
+      },
+      {
+        "requirementId": "REQ-NF-1002",
+        "componentIds": [
+          "COMP-0004"
+        ],
+        "taskIds": [
+          "TASK-0004",
+          "TASK-0005"
+        ],
+        "testIds": [
+          "TEST-0004",
+          "TEST-0005"
+        ],
+        "acceptanceCriteriaIds": [
+          "AC-0003"
+        ],
+        "forwardAndBackwardComplete": true
+      }
+    ],
+    "orphanRequirements": [],
+    "orphanComponents": [],
+    "orphanTasks": [],
+    "orphanTests": [],
+    "completenessRate": 1
+  }
+}

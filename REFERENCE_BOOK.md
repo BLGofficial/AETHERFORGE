@@ -103,3 +103,16 @@ Direct empirical inspection of the Windows 11 workstation (`C:\Users\blago\Deskt
 | **Agent Prompts** | Immutable governance preamble and verbatim production XML/JSON system prompts for all 19 specialist agents (`AGT-01`..`AGT-19`) | `C:\Users\blago\Desktop\AETHERFORGE\AGENT_PROMPTS\README.md` & `C:\Users\blago\Desktop\AETHERFORGE\AGENT_PROMPTS\system-prompts-catalog.md` |
 | **Agent Contracts** | Zod and JSON Schema (Draft 2020-12) definitions for `TaskOwnershipLease`, monotonic `fenceToken`, `SharedContextEnvelope`, anti-fabrication `FileHashBinding`, delegation/escalation requests, and `AGT-19` `IndependentVerificationVerdict` | `C:\Users\blago\Desktop\AETHERFORGE\AGENT_CONTRACTS\README.md`, `multi-agent-contracts.md`, `agent-network-schemas.json` |
 | **Agent Evaluation Framework** | 5 deterministic hard gates, per-agent benchmark catalog (`EVAL-AGT01-001`..`EVAL-AGT19-001`), and 4 adversarial concurrency/anti-fabrication torture scenarios (`ADV-MA-001..004`) | `C:\Users\blago\Desktop\AETHERFORGE\AGENT_EVALUATION_FRAMEWORK.md` |
+
+
+---
+
+## 8. System Compiler & Specification Schemas Index (Lead Systems Compiler Engineer Baseline)
+
+| Artifact | Purpose | Path |
+| :--- | :--- | :--- |
+| **Compilation Pipeline Specification** | Architecture and formal transformation rules for the 12-stage System Compiler (`ARCH-04`), 6 input modalities, fail-closed semantic validation rules (`CON-RULE-01..03`), and 4-way traceability equations | `C:\Users\blago\Desktop\AETHERFORGE\COMPILATION_PIPELINE.md` |
+| **System Compiler Engine** | Executable TypeScript 12-stage compiler (`AetherForgeSystemCompiler`) with Kahn topological sort, cycle/missing-dependency detector, contradiction validator, unsupported capability blocker, and 4-way traceability matrix builder | `C:\Users\blago\Desktop\AETHERFORGE\SYSTEM_COMPILER\src\index.ts` & `C:\Users\blago\Desktop\AETHERFORGE\SYSTEM_COMPILER\README.md` |
+| **Specification Schemas** | Zod (`compiler-schemas.ts`) and JSON Schema Draft 2020-12 (`project-specification.schema.json`) contracts for all 6 input types, 12 pipeline stage IRs, validation reports, and `CompiledEngineeringSpecification` | `C:\Users\blago\Desktop\AETHERFORGE\SPECIFICATION_SCHEMAS\compiler-schemas.ts` & `C:\Users\blago\Desktop\AETHERFORGE\SPECIFICATION_SCHEMAS\project-specification.schema.json` |
+| **Compiler Verification Suite** | Executable Vitest suite verifying all 6 input types, all 12 stages, 100% 4-way traceability (`REQ ↔ COMP ↔ TASK ↔ TEST ↔ AC`), contradiction rejection, unsupported capability blocking, missing/cyclic dependency rejection, and blocking ambiguity halting | `C:\Users\blago\Desktop\AETHERFORGE\COMPILER_TESTS\system-compiler.test.ts` |
+| **Compilation Examples** | Machine-readable compiled specifications for a VST3/DSP + FL Studio 2025 audio system and a Multi-Agent Repository Governance workflow | `C:\Users\blago\Desktop\AETHERFORGE\COMPILATION_EXAMPLES\example-01-vst3-flstudio-transient-shaper.json` & `example-02-multi-agent-repo-governance.json` |

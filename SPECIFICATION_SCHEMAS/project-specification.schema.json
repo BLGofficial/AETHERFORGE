@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aetherforge.internal/schemas/v1/project-specification.schema.json",
+  "title": "AETHER FORGE Compiled Engineering Specification (v1.0.0)",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "specificationId",
+    "projectId",
+    "tenantId",
+    "specificationVersion",
+    "compiledAt",
+    "specificationSha256",
+    "validation",
+    "pipelineStages",
+    "traceabilityMatrix"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "specificationId": { "type": "string", "minLength": 1 },
+    "projectId": { "type": "string", "minLength": 1 },
+    "tenantId": { "type": "string", "minLength": 1 },
+    "specificationVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "compiledAt": { "type": "string", "format": "date-time" },
+    "specificationSha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+    "validation": {
+      "type": "object",
+      "required": [
+        "isValid",
+        "status",
+        "missingDependencies",
+        "contradictoryRequirements",
+        "unsupportedCapabilities",
+        "blockingAmbiguities",
+        "traceabilityCompletenessRate"
+      ],
+      "properties": {
+        "isValid": { "type": "boolean" },
+        "status": {
+          "type": "string",
+          "enum": [
+            "COMPILED_VALID",
+            "REJECTED_CONTRADICTORY_REQUIREMENTS",
+            "REJECTED_UNSUPPORTED_CAPABILITIES",
+            "REJECTED_MISSING_DEPENDENCIES",
+            "HALTED_BLOCKING_AMBIGUITY"
+          ]
+        },
+        "missingDependencies": { "type": "array", "items": { "type": "string" } },
+        "contradictoryRequirements": { "type": "array", "items": { "type": "object" } },
+        "unsupportedCapabilities": { "type": "array", "items": { "type": "object" } },
+        "blockingAmbiguities": { "type": "array", "items": { "type": "object" } },
+        "traceabilityCompletenessRate": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "pipelineStages": {
+      "type": "object",
+      "required": [
+        "stage01Intent",
+        "stage02Requirements",
+        "stage03Ambiguities",
+        "stage04Domains",
+        "stage05Capabilities",
+        "stage06ResearchRequests",
+        "stage07Architecture",
+        "stage08Components",
+        "stage09DependencyGraph",
+        "stage10Workflow",
+        "stage11TestSpecifications",
+        "stage12AcceptanceCriteria"
+      ]
+    },
+    "traceabilityMatrix": {
+      "type": "object",
+      "required": [
+        "rows",
+        "orphanRequirements",
+        "orphanComponents",
+        "orphanTasks",
+        "orphanTests",
+        "completenessRate"
+      ],
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "requirementId",
+              "componentIds",
+              "taskIds",
+              "testIds",
+              "acceptanceCriteriaIds",
+              "forwardAndBackwardComplete"
+            ],
+            "properties": {
+              "requirementId": { "type": "string", "pattern": "^REQ-(F|NF)-\\d{4}$" },
+              "componentIds": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^COMP-\\d{4}$" } },
+              "taskIds": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^TASK-\\d{4}$" } },
+              "testIds": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^TEST-\\d{4}$" } },
+              "acceptanceCriteriaIds": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^AC-\\d{4}$" } },
+              "forwardAndBackwardComplete": { "type": "boolean" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "orphanRequirements": { "type": "array", "items": { "type": "string" } },
+        "orphanComponents": { "type": "array", "items": { "type": "string" } },
+        "orphanTasks": { "type": "array", "items": { "type": "string" } },
+        "orphanTests": { "type": "array", "items": { "type": "string" } },
+        "completenessRate": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

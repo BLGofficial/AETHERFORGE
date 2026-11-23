@@ -129,3 +129,11 @@
 - `AGENT_PROMPTS/README.md` & `AGENT_PROMPTS/system-prompts-catalog.md`: Immutable governance preamble and verbatim production XML/JSON system prompts for `AGT-01` through `AGT-19`.
 - `AGENT_CONTRACTS/README.md`, `AGENT_CONTRACTS/multi-agent-contracts.md`, & `AGENT_CONTRACTS/agent-network-schemas.json`: Zod and JSON Schema (Draft 2020-12) contracts for `TaskOwnershipLease`, `SharedContextEnvelope`, `FileHashBinding`, delegation/escalation payloads, and `AGT-19` `IndependentVerificationVerdict`.
 - `AGENT_EVALUATION_FRAMEWORK.md`: 5 deterministic hard gates, per-agent benchmark catalog (`EVAL-AGT01-001`..`EVAL-AGT19-001`), and adversarial concurrency/anti-fabrication torture suite (`ADV-MA-001..004`).
+
+
+### System Compiler & Specification Schemas Deliverables (Lead Systems Compiler Engineer Baseline)
+- `COMPILATION_PIPELINE.md`: 12-stage System Compiler specification covering 6 input modalities, stage-by-stage IR lowering, fail-closed semantic validation rules (`CON-RULE-01..03`), and 4-way traceability invariant (`REQ ↔ COMP ↔ TASK ↔ TEST ↔ AC`).
+- `SYSTEM_COMPILER/src/index.ts` & `SYSTEM_COMPILER/scripts/generate-examples.ts`: Executable TypeScript implementation of `AetherForgeSystemCompiler` and example generator.
+- `SPECIFICATION_SCHEMAS/compiler-schemas.ts` & `SPECIFICATION_SCHEMAS/project-specification.schema.json`: Strict Zod and JSON Schema (Draft 2020-12) definitions for `CompiledEngineeringSpecification` (`v1.0.0`).
+- `COMPILER_TESTS/system-compiler.test.ts`: Automated Vitest suite verifying all 6 input types, 12 stages, 100% 4-way traceability, contradiction rejection, unsupported capability rejection, missing/cyclic dependency rejection, and ambiguity halting.
+- `COMPILATION_EXAMPLES/example-01-vst3-flstudio-transient-shaper.json` & `COMPILATION_EXAMPLES/example-02-multi-agent-repo-governance.json`: Deterministic compiled specification bundles.
