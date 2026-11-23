@@ -13,3 +13,5 @@ local-workspace/
 .aetherforge/
 build/
 target/
+__pycache__/
+*.pyc
