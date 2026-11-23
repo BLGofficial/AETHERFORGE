@@ -137,3 +137,12 @@
 - `SPECIFICATION_SCHEMAS/compiler-schemas.ts` & `SPECIFICATION_SCHEMAS/project-specification.schema.json`: Strict Zod and JSON Schema (Draft 2020-12) definitions for `CompiledEngineeringSpecification` (`v1.0.0`).
 - `COMPILER_TESTS/system-compiler.test.ts`: Automated Vitest suite verifying all 6 input types, 12 stages, 100% 4-way traceability, contradiction rejection, unsupported capability rejection, missing/cyclic dependency rejection, and ambiguity halting.
 - `COMPILATION_EXAMPLES/example-01-vst3-flstudio-transient-shaper.json` & `COMPILATION_EXAMPLES/example-02-multi-agent-repo-governance.json`: Deterministic compiled specification bundles.
+
+
+### Durable Workflow & Multi-Agent Orchestration Engine Deliverables (Principal Workflow & Orchestration Engineer Baseline)
+- `EXECUTION_STATE_MACHINE.md`: Formal 12-state workflow and 9-state step state machine, topological readiness rules, parallel disjoint write-glob invariants, and WAL hash-chain invariants.
+- `RECOVERY_FRAMEWORK.md`: Disk-persisted WAL (`.wal.jsonl`) and atomic checkpoint snapshot (`.checkpoint.json`) crash recovery protocol, retry backoff taxonomy, LIFO compensating saga rollback, and timeout/budget circuit breakers.
+- `WORKFLOW_SCHEMA/workflow-schema.ts` & `WORKFLOW_SCHEMA/workflow-definition.schema.json`: Strict Zod and JSON Schema (Draft 2020-12) definitions for `WorkflowDefinition`, `DurableWorkflowCheckpoint`, and `WalEventRecord`.
+- `WORKFLOW_ENGINE/src/index.ts`: Executable `DurableWorkflowEngine` with disk persistence, crash-safe `resumeFromDiskCheckpoint()`, retry, LIFO rollback, human approval gates, and idempotency deduplication.
+- `ORCHESTRATION_ENGINE/src/index.ts`: Executable `MultiAgentOrchestrationEngine` and `lowerCompiledSpecToWorkflowDefinition()` lowering `CompiledEngineeringSpecification` bundles into durable multi-agent workflows.
+- `WORKFLOW_TESTS/workflow-orchestration.test.ts`: Automated Vitest suite verifying all topologies, crash/restart resume, failed agent retry & LIFO rollback, duplicate execution deduplication, and concurrent conflict rejection.
