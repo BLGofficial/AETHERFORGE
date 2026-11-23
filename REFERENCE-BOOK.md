@@ -164,3 +164,12 @@
 - `DAW_ADAPTER_FRAMEWORK/src/index.ts`: Multi-DAW `DawCapabilityRegistry`, `FlStudio2025DomainAdapter` (read-only `.flp` inspection, Python MIDI Controller script generation, and strict refusal of undocumented `.flp` mutation), replaceable `ReaperRppDomainAdapter`, track routing DAG validator, and MIDI pattern transformer.
 - `AUDIO_TEST_FRAMEWORK/src/index.ts` & `AUDIO_TEST_FRAMEWORK/tests/audio-domain.test.ts`: Phase-cancellation null test, real-time WCET profiler, and automated Vitest suite.
 - `DOMAIN_KNOWLEDGE_PACKS/audio-domain-knowledge-pack.json`: Evidence-cited audio/VST3/DAW knowledge pack.
+
+
+### Persistent Knowledge, Memory & Context Assembly Deliverables (Chief Knowledge & Memory Architect Baseline)
+- `KNOWLEDGE_GOVERNANCE.md`: Six-Layer Epistemic Separation Model preventing unverified generated artifacts (`GENERATED_ARTIFACT`) from being treated as authoritative technical documentation (`VERIFIED_FACT` / `ENGINEERING_DECISION`).
+- `KNOWLEDGE_ENGINE/src/index.ts`: `PersistentKnowledgeEngine` with immutable version chains, `promoteToVerifiedFact()` (`AGT-19` execution evidence gate), `detectConflicts()`, and Obsidian-compatible Markdown (YAML frontmatter, `[[Wikilinks]]`, backlinks, epistemic callouts) export/sync.
+- `MEMORY_ENGINE/src/index.ts`: `PersistentMemoryEngine` for ADR lifecycle memory, hash-chained Engineering History timeline, and isolated per-agent scratchpad memory (`AGT-01`..`AGT-19`).
+- `DOCUMENT_INGESTION/src/index.ts`: `KnowledgeDocumentIngestionPipeline` for Markdown documents, Obsidian notes, and JSON Domain Knowledge Packs.
+- `RETRIEVAL_ENGINE/src/index.ts`: `HybridKnowledgeRetrievalEngine` combining BM25 lexical scoring, deterministic 64-dim vector cosine similarity, and Obsidian `[[Wikilink]]` graph traversal.
+- `PROJECT_CONTEXT_ENGINE/src/index.ts` & `PROJECT_CONTEXT_ENGINE/tests/knowledge-memory-system.test.ts`: Token-budgeted, provenance-pinned context assembler and automated Vitest verification suite.

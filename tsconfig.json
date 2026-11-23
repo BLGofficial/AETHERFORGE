@@ -31,6 +31,11 @@
     "DSP_ENGINE/**/*.ts",
     "VST3_ENGINE/**/*.ts",
     "DAW_ADAPTER_FRAMEWORK/**/*.ts",
-    "AUDIO_TEST_FRAMEWORK/**/*.ts"
+    "AUDIO_TEST_FRAMEWORK/**/*.ts",
+    "KNOWLEDGE_ENGINE/**/*.ts",
+    "MEMORY_ENGINE/**/*.ts",
+    "DOCUMENT_INGESTION/**/*.ts",
+    "RETRIEVAL_ENGINE/**/*.ts",
+    "PROJECT_CONTEXT_ENGINE/**/*.ts"
   ]
 }
