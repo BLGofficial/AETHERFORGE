@@ -39,6 +39,11 @@
     "PROJECT_CONTEXT_ENGINE/**/*.ts",
     "EVIDENCE_REGISTRY/**/*.ts",
     "VERIFICATION_ENGINE/**/*.ts",
-    "QA_FRAMEWORK/**/*.ts"
+    "QA_FRAMEWORK/**/*.ts",
+    "DESIGN_SYSTEM/**/*.ts",
+    "COMPONENT_LIBRARY/**/*.ts",
+    "API_INTEGRATION/**/*.ts",
+    "FRONTEND_APPLICATION/**/*.ts",
+    "E2E_UI_TESTS/**/*.ts"
   ]
 }
