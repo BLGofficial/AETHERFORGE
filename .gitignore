@@ -11,3 +11,5 @@ local-workspace/
 
 
 .aetherforge/
+build/
+target/

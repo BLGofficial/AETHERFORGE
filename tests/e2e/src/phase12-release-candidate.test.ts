@@ -351,9 +351,16 @@ describe("PHASE 12 — Full integrated vertical slice and release candidate veri
     expect(dawReceipt.ok).toBe(true);
     if (!writeReceipt.ok || !audioReceipt.ok || !dawReceipt.ok) return;
 
-    // 4d. VST3 binary check: verify Phase 10 prerequisite gate keeps native .vst3 binary explicitly blocked
+    // 4d. VST3 binary check: verify live native toolchain readiness and fail-closed blocking when missing
     const vst3Prereqs = discoverVst3BuildPrerequisites();
-    expect(vst3Prereqs.status).toBe("BLOCKED_MISSING_PREREQUISITES");
+    expect(["READY_TO_BUILD", "BLOCKED_MISSING_PREREQUISITES"]).toContain(vst3Prereqs.status);
+    const missingPrereqs = discoverVst3BuildPrerequisites({
+      cppCompilerPath: "C:\\nonexistent\\cl.exe",
+      juceDir: "C:\\nonexistent\\JUCE",
+      vst3SdkDir: "C:\\nonexistent\\VST_SDK",
+      pluginvalPath: "C:\\nonexistent\\pluginval.exe",
+    });
+    expect(missingPrereqs.status).toBe("BLOCKED_MISSING_PREREQUISITES");
 
     // 5. Verify Web UI result rendering and 5-Boundary OpenTelemetry Dashboard correlation
     const allEvidence = [

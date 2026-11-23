@@ -19,12 +19,34 @@ export function discoverVst3BuildPrerequisites(overrides?: {
   readonly pluginvalPath?: string;
   readonly cppCompilerPath?: string;
 }): Vst3BuildPrerequisites {
+  const homeDir = process.env["USERPROFILE"] ?? "";
+  const defaultSdkRoot = homeDir ? resolve(homeDir, "aetherforge-sdk") : "";
+
   const cmakePath = overrides?.cmakePath ?? "C:\\Program Files\\CMake\\bin\\cmake.exe";
-  const juceDir = overrides?.juceDir ?? process.env["JUCE_SOURCE_DIR"] ?? "C:\\JUCE";
-  const vst3SdkDir = overrides?.vst3SdkDir ?? process.env["VST3_SDK_DIR"] ?? "C:\\VST_SDK";
+  const juceDir =
+    overrides?.juceDir ??
+    process.env["JUCE_SOURCE_DIR"] ??
+    (defaultSdkRoot && existsSync(resolve(defaultSdkRoot, "JUCE", "CMakeLists.txt"))
+      ? resolve(defaultSdkRoot, "JUCE")
+      : "C:\\JUCE");
+  const vst3SdkDir =
+    overrides?.vst3SdkDir ??
+    process.env["VST3_SDK_DIR"] ??
+    (defaultSdkRoot && existsSync(resolve(defaultSdkRoot, "VST_SDK", "CMakeLists.txt"))
+      ? resolve(defaultSdkRoot, "VST_SDK")
+      : "C:\\VST_SDK");
   const pluginvalPath =
-    overrides?.pluginvalPath ?? process.env["PLUGINVAL_EXE"] ?? "C:\\pluginval\\pluginval.exe";
-  const cppCompilerPath = overrides?.cppCompilerPath ?? "";
+    overrides?.pluginvalPath ??
+    process.env["PLUGINVAL_EXE"] ??
+    (defaultSdkRoot && existsSync(resolve(defaultSdkRoot, "pluginval", "pluginval.exe"))
+      ? resolve(defaultSdkRoot, "pluginval", "pluginval.exe")
+      : "C:\\pluginval\\pluginval.exe");
+  const cppCompilerPath =
+    overrides?.cppCompilerPath ??
+    process.env["CXX"] ??
+    (defaultSdkRoot && existsSync(resolve(defaultSdkRoot, "llvm-mingw", "bin", "clang++.exe"))
+      ? resolve(defaultSdkRoot, "llvm-mingw", "bin", "clang++.exe")
+      : "");
 
   const cmakeFound = existsSync(cmakePath);
   const cppCompilerFound = Boolean(cppCompilerPath && existsSync(cppCompilerPath));

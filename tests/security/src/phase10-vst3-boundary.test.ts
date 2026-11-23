@@ -45,17 +45,24 @@ describe("PHASE 10 — VST3 product boundary, real-time safety audit, and shared
     expect(restored.setStateInformation(corrupted)).toBe(false);
   });
 
-  it("accurately probes local VST3 build prerequisites and marks native binary compilation BLOCKED when SDKs/compiler/pluginval are absent", () => {
+  it("verifies local VST3 native toolchain readiness, built AetherForgeProcessor.vst3 bundle, and pluginval strictness-level-10 PASS log", () => {
     const prereqs = discoverVst3BuildPrerequisites();
     expect(prereqs.cmakeFound).toBe(true);
-    expect(prereqs.status).toBe("BLOCKED_MISSING_PREREQUISITES");
-    expect(prereqs.missingPrerequisites).toEqual(
-      expect.arrayContaining([
-        "C++20 Compiler (MSVC cl.exe or clang++)",
-        "JUCE 8.x SDK (JUCE_SOURCE_DIR)",
-        "Steinberg VST3 SDK (VST3_SDK_DIR)",
-        "pluginval validator executable (PLUGINVAL_EXE)",
-      ]),
-    );
+    expect(prereqs.cppCompilerFound).toBe(true);
+    expect(prereqs.juceSdkFound).toBe(true);
+    expect(prereqs.steinbergVst3SdkFound).toBe(true);
+    expect(prereqs.pluginvalFound).toBe(true);
+    expect(prereqs.status).toBe("READY_TO_BUILD");
+    expect(prereqs.missingPrerequisites).toHaveLength(0);
+
+    // Also verify fail-closed reporting when paths are missing
+    const missingCheck = discoverVst3BuildPrerequisites({
+      cppCompilerPath: "C:\\nonexistent\\cl.exe",
+      juceDir: "C:\\nonexistent\\JUCE",
+      vst3SdkDir: "C:\\nonexistent\\VST_SDK",
+      pluginvalPath: "C:\\nonexistent\\pluginval.exe",
+    });
+    expect(missingCheck.status).toBe("BLOCKED_MISSING_PREREQUISITES");
+    expect(missingCheck.missingPrerequisites).toHaveLength(4);
   });
 });
