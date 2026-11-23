@@ -1,0 +1,27 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "Win32-Clang23-AetherForge",
+      "includePath": [
+        "${workspaceFolder}/products/aether-punch-vst3/src",
+        "${workspaceFolder}/plugins/vst3/AetherForgeProcessor",
+        "${workspaceFolder}/VST3_ENGINE/templates",
+        "C:/Users/blago/aetherforge-sdk/VST_SDK",
+        "C:/Users/blago/aetherforge-sdk/JUCE/modules",
+        "C:/Users/blago/aetherforge-sdk/llvm-mingw/include",
+        "C:/Users/blago/aetherforge-sdk/llvm-mingw/include/c++/v1"
+      ],
+      "defines": [
+        "_WIN32",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "compilerPath": "C:/Users/blago/aetherforge-sdk/llvm-mingw/bin/clang++.exe",
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "intelliSenseMode": "windows-clang-x64",
+      "compileCommands": "${workspaceFolder}/build/aether-punch/compile_commands.json"
+    }
+  ]
+}

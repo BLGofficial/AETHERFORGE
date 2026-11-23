@@ -1,3 +1,25 @@
 {
-    "cmake.sourceDirectory": "C:/Users/blago/Desktop/AETHERFORGE/plugins/vst3"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "cmake.sourceDirectory": "${workspaceFolder}/products/aether-punch-vst3",
+  "cmake.buildDirectory": "${workspaceFolder}/build/aether-punch",
+  "cmake.generator": "MinGW Makefiles",
+  "cmake.configureSettings": {
+    "VST3_SDK_DIR": "C:/Users/blago/aetherforge-sdk/VST_SDK",
+    "JUCE_SOURCE_DIR": "C:/Users/blago/aetherforge-sdk/JUCE",
+    "CMAKE_C_COMPILER": "C:/Users/blago/aetherforge-sdk/llvm-mingw/bin/clang.exe",
+    "CMAKE_CXX_COMPILER": "C:/Users/blago/aetherforge-sdk/llvm-mingw/bin/clang++.exe",
+    "CMAKE_MAKE_PROGRAM": "C:/Users/blago/aetherforge-sdk/llvm-mingw/bin/mingw32-make.exe",
+    "CMAKE_RC_COMPILER": "C:/Users/blago/aetherforge-sdk/llvm-mingw/bin/windres.exe",
+    "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+  },
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/build/aether-punch/compile_commands.json",
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}/build/aether-punch"
+  ],
+  "files.exclude": {
+    "**/build": true,
+    "**/target": true,
+    "**/.aetherforge": true
+  }
 }

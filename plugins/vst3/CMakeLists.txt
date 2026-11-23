@@ -5,7 +5,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Gate rule (PHASE 10 / ADR-0008): require explicit JUCE_SOURCE_DIR and VST3_SDK_DIR
+# Gate rule (PHASE 10 / ADR-0008): auto-discover local aetherforge-sdk/JUCE if not explicitly passed
+if(NOT DEFINED JUCE_SOURCE_DIR AND EXISTS "$ENV{USERPROFILE}/aetherforge-sdk/JUCE/CMakeLists.txt")
+  file(TO_CMAKE_PATH "$ENV{USERPROFILE}/aetherforge-sdk/JUCE" JUCE_SOURCE_DIR)
+endif()
 if(NOT DEFINED JUCE_SOURCE_DIR OR NOT EXISTS "${JUCE_SOURCE_DIR}/CMakeLists.txt")
   message(FATAL_ERROR "BLOCKED_MISSING_PREREQUISITE: JUCE_SOURCE_DIR not provided or missing CMakeLists.txt")
 endif()
