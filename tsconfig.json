@@ -36,6 +36,9 @@
     "MEMORY_ENGINE/**/*.ts",
     "DOCUMENT_INGESTION/**/*.ts",
     "RETRIEVAL_ENGINE/**/*.ts",
-    "PROJECT_CONTEXT_ENGINE/**/*.ts"
+    "PROJECT_CONTEXT_ENGINE/**/*.ts",
+    "EVIDENCE_REGISTRY/**/*.ts",
+    "VERIFICATION_ENGINE/**/*.ts",
+    "QA_FRAMEWORK/**/*.ts"
   ]
 }
