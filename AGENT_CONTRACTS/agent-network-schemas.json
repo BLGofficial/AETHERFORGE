@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aetherforge.internal/schemas/v1/agent-network-schemas.json",
+  "title": "AETHER FORGE Specialist Multi-Agent Network Contracts",
+  "version": "1.0.0",
+  "$defs": {
+    "AgentId": {
+      "type": "string",
+      "enum": [
+        "AGT-01", "AGT-02", "AGT-03", "AGT-04", "AGT-05",
+        "AGT-06", "AGT-07", "AGT-08", "AGT-09", "AGT-10",
+        "AGT-11", "AGT-12", "AGT-13", "AGT-14", "AGT-15",
+        "AGT-16", "AGT-17", "AGT-18", "AGT-19"
+      ]
+    },
+    "Sha256Hex": {
+      "type": "string",
+      "pattern": "^[A-Fa-f0-9]{64}$"
+    },
+    "FileHashBinding": {
+      "type": "object",
+      "required": ["canonicalPath", "preExecutionSha256", "postExecutionSha256", "bytes"],
+      "properties": {
+        "canonicalPath": { "type": "string", "minLength": 1 },
+        "preExecutionSha256": {
+          "anyOf": [{ "$ref": "#/$defs/Sha256Hex" }, { "type": "null" }]
+        },
+        "postExecutionSha256": { "$ref": "#/$defs/Sha256Hex" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "TaskOwnershipLease": {
+      "type": "object",
+      "required": [
+        "leaseId", "tenantId", "projectId", "planId", "stepId",
+        "ownerAgentId", "fenceToken", "actionTier", "exclusiveWriteGlobs",
+        "readOnlyGlobs", "baseTreeSha256", "issuedAt", "expiresAt", "approvalTokenId"
+      ],
+      "properties": {
+        "leaseId": { "type": "string", "format": "uuid" },
+        "tenantId": { "type": "string", "minLength": 1 },
+        "projectId": { "type": "string", "minLength": 1 },
+        "planId": { "type": "string", "minLength": 1 },
+        "stepId": { "type": "string", "minLength": 1 },
+        "ownerAgentId": { "$ref": "#/$defs/AgentId" },
+        "fenceToken": { "type": "integer", "minimum": 1 },
+        "actionTier": { "type": "string", "enum": ["0", "1", "2", "3"] },
+        "exclusiveWriteGlobs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "readOnlyGlobs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "baseTreeSha256": { "$ref": "#/$defs/Sha256Hex" },
+        "issuedAt": { "type": "string", "format": "date-time" },
+        "expiresAt": { "type": "string", "format": "date-time" },
+        "approvalTokenId": {
+          "anyOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }]
+        }
+      },
+      "additionalProperties": false
+    },
+    "SharedContextEnvelope": {
+      "type": "object",
+      "required": [
+        "envelopeId", "tenantId", "projectId", "traceId", "planId", "stepId",
+        "briefSnapshotHash", "knowledgeSnapshotId", "contractVersionHash",
+        "requirementIds", "upstreamArtifacts", "agentScratchpadNamespace"
+      ],
+      "properties": {
+        "envelopeId": { "type": "string", "format": "uuid" },
+        "tenantId": { "type": "string", "minLength": 1 },
+        "projectId": { "type": "string", "minLength": 1 },
+        "traceId": { "type": "string", "minLength": 16 },
+        "planId": { "type": "string", "minLength": 1 },
+        "stepId": { "type": "string", "minLength": 1 },
+        "briefSnapshotHash": { "$ref": "#/$defs/Sha256Hex" },
+        "knowledgeSnapshotId": { "type": "string", "minLength": 1 },
+        "contractVersionHash": { "$ref": "#/$defs/Sha256Hex" },
+        "requirementIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^REQ-(F|NF)-\\d{4}$" }
+        },
+        "upstreamArtifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["producerAgentId", "stepId", "canonicalPath", "sha256", "epistemicTag"],
+            "properties": {
+              "producerAgentId": { "$ref": "#/$defs/AgentId" },
+              "stepId": { "type": "string", "minLength": 1 },
+              "canonicalPath": { "type": "string", "minLength": 1 },
+              "sha256": { "$ref": "#/$defs/Sha256Hex" },
+              "epistemicTag": {
+                "type": "string",
+                "enum": ["verified_facts", "engineering_recommendations", "unverified_assumptions"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "agentScratchpadNamespace": {
+          "type": "string",
+          "pattern": "^memory://[^/]+/[^/]+/[^/]+/AGT-\\d{2}/$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "IndependentVerificationVerdict": {
+      "type": "object",
+      "required": [
+        "verdictId", "planId", "stepId", "leaseId", "authorAgentId",
+        "verifierAgentId", "status", "checks", "verifiedArtifacts",
+        "acceptanceCriteriaChecked", "findings", "auditEntryHash", "verifiedAt"
+      ],
+      "properties": {
+        "verdictId": { "type": "string", "format": "uuid" },
+        "planId": { "type": "string", "minLength": 1 },
+        "stepId": { "type": "string", "minLength": 1 },
+        "leaseId": { "type": "string", "format": "uuid" },
+        "authorAgentId": {
+          "type": "string",
+          "enum": [
+            "AGT-01", "AGT-02", "AGT-03", "AGT-04", "AGT-05",
+            "AGT-06", "AGT-07", "AGT-08", "AGT-09", "AGT-10",
+            "AGT-11", "AGT-12", "AGT-13", "AGT-14", "AGT-15",
+            "AGT-16", "AGT-17", "AGT-18"
+          ]
+        },
+        "verifierAgentId": { "type": "string", "const": "AGT-19" },
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "BLOCKED_MISSING_PREREQUISITES"]
+        },
+        "checks": {
+          "type": "object",
+          "required": [
+            "separationOfDutyVerified",
+            "leaseGlobsRespected",
+            "diskSha256MatchesClaimed",
+            "zeroPlaceholderFabrication",
+            "commandExitCodesVerified",
+            "auditChainIntact"
+          ],
+          "properties": {
+            "separationOfDutyVerified": { "type": "boolean" },
+            "leaseGlobsRespected": { "type": "boolean" },
+            "diskSha256MatchesClaimed": { "type": "boolean" },
+            "zeroPlaceholderFabrication": { "type": "boolean" },
+            "commandExitCodesVerified": { "type": "boolean" },
+            "auditChainIntact": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        },
+        "verifiedArtifacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/FileHashBinding" }
+        },
+        "acceptanceCriteriaChecked": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^AC-\\d{3}$" }
+        },
+        "findings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "auditEntryHash": { "$ref": "#/$defs/Sha256Hex" },
+        "verifiedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

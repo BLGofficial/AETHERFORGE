@@ -121,3 +121,11 @@
   - `tests/performance/src/phase12-performance.test.ts` (200-iteration OPA policy & canonical plan-hash latency benchmark `<2.0ms` avg; 1s 48kHz stereo PCM16 WAV synthesis & inspection `<50ms`).
 - **Operational Runbooks Index:** Authored at [docs/operations/runbooks.md](./docs/operations/runbooks.md) and linked to [infra/monitoring/dashboards-and-alerts.json](./infra/monitoring/dashboards-and-alerts.json).
 - **Release Evidence Bundle:** [RELEASE-CANDIDATE-v1.0.0-rc1.md](./RELEASE-CANDIDATE-v1.0.0-rc1.md), [CHANGELOG.md](./CHANGELOG.md), and `artifacts/release-v1.0.0-rc1/{sbom.cdx.json,provenance.intoto.json,release-attestation.json}`.
+
+
+### Specialist Multi-Agent Network Deliverables (Lead Multi-Agent Systems Architect Baseline)
+- `AGENT_REGISTRY.md`: Master registry of all 19 specialist agents (`AGT-01`..`AGT-19`), hierarchical & collaborative orchestration topology, fenced path-lease concurrency control (`fenceToken` + disjoint `exclusiveWriteGlobs`), shared context contracts, agent isolation, anti-fabrication rules, and escalation matrix.
+- `AGENT_SPECIFICATIONS/README.md`, `tier-1-architecture-discovery.md`, `tier-2a-ai-agentic-engineering.md`, `tier-2b-native-audio-daw-engineering.md`, `tier-3-ops-security-quality-verification.md`: Complete 10-dimension specifications for all 19 agents.
+- `AGENT_PROMPTS/README.md` & `AGENT_PROMPTS/system-prompts-catalog.md`: Immutable governance preamble and verbatim production XML/JSON system prompts for `AGT-01` through `AGT-19`.
+- `AGENT_CONTRACTS/README.md`, `AGENT_CONTRACTS/multi-agent-contracts.md`, & `AGENT_CONTRACTS/agent-network-schemas.json`: Zod and JSON Schema (Draft 2020-12) contracts for `TaskOwnershipLease`, `SharedContextEnvelope`, `FileHashBinding`, delegation/escalation payloads, and `AGT-19` `IndependentVerificationVerdict`.
+- `AGENT_EVALUATION_FRAMEWORK.md`: 5 deterministic hard gates, per-agent benchmark catalog (`EVAL-AGT01-001`..`EVAL-AGT19-001`), and adversarial concurrency/anti-fabrication torture suite (`ADV-MA-001..004`).

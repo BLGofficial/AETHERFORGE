@@ -90,3 +90,16 @@ Direct empirical inspection of the Windows 11 workstation (`C:\Users\blago\Deskt
 - **System Diagrams ([SYSTEM_DIAGRAMS.md](./SYSTEM_DIAGRAMS.md)):** Mermaid diagrams for Hybrid Trust Boundaries (`TB-1`..`TB-7`), Monorepo Module Dependency Graph, Entity-Relationship & Evidence Provenance Data Flow, 10-Stage Governed Execution Sequence, and `INV-03` Approval/Workflow State Machine.
 - **Architecture Decision Records ([ARCHITECTURE_DECISION_RECORDS/README.md](./ARCHITECTURE_DECISION_RECORDS/README.md) & [docs/adr/](./docs/adr/)):** Master registry linking `ADR-0001` through `ADR-0010` to invariants (`INV-01`..`INV-05`) and test suites.
 - **Interface Contracts ([INTERFACE_CONTRACTS/README.md](./INTERFACE_CONTRACTS/README.md) & [core-contracts.md](./INTERFACE_CONTRACTS/core-contracts.md)):** Formal interface specifications synchronized with `@aether-forge/contracts`, [json-schema.json](./contracts/generated/json-schema.json), and [openapi.json](./contracts/generated/openapi.json).
+
+
+---
+
+## 7. Specialist Multi-Agent Network & Orchestration Contracts (Lead Multi-Agent Systems Architect Baseline)
+
+| Artifact | Purpose | Path |
+| :--- | :--- | :--- |
+| **Agent Registry** | Complete roster of all 19 specialist agents (`AGT-01`..`AGT-19`), hierarchical & collaborative orchestration model, fenced path-lease concurrency control, shared context contracts, agent isolation, anti-fabrication rules, and escalation matrix | `C:\Users\blago\Desktop\AETHERFORGE\AGENT_REGISTRY.md` |
+| **Agent Specifications** | Full 10-dimension specifications (system prompt, role, domain knowledge, tool permissions, I/O schemas, memory access, lifecycle, delegation policy, failure handling, evaluation benchmarks) across Tiers 0, 1, 2A, 2B, and 3 | `C:\Users\blago\Desktop\AETHERFORGE\AGENT_SPECIFICATIONS\README.md` (`tier-1`, `tier-2a`, `tier-2b`, `tier-3`) |
+| **Agent Prompts** | Immutable governance preamble and verbatim production XML/JSON system prompts for all 19 specialist agents (`AGT-01`..`AGT-19`) | `C:\Users\blago\Desktop\AETHERFORGE\AGENT_PROMPTS\README.md` & `C:\Users\blago\Desktop\AETHERFORGE\AGENT_PROMPTS\system-prompts-catalog.md` |
+| **Agent Contracts** | Zod and JSON Schema (Draft 2020-12) definitions for `TaskOwnershipLease`, monotonic `fenceToken`, `SharedContextEnvelope`, anti-fabrication `FileHashBinding`, delegation/escalation requests, and `AGT-19` `IndependentVerificationVerdict` | `C:\Users\blago\Desktop\AETHERFORGE\AGENT_CONTRACTS\README.md`, `multi-agent-contracts.md`, `agent-network-schemas.json` |
+| **Agent Evaluation Framework** | 5 deterministic hard gates, per-agent benchmark catalog (`EVAL-AGT01-001`..`EVAL-AGT19-001`), and 4 adversarial concurrency/anti-fabrication torture scenarios (`ADV-MA-001..004`) | `C:\Users\blago\Desktop\AETHERFORGE\AGENT_EVALUATION_FRAMEWORK.md` |
