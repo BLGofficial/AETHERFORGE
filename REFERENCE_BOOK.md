@@ -145,3 +145,17 @@ Direct empirical inspection of the Windows 11 workstation (`C:\Users\blago\Deskt
 | **Artifact Manager** | Content-addressable SHA-256 artifact registry (`ART-XXXXX-<hash>`) with lineage binding and disk integrity verification | `C:\Users\blago\Desktop\AETHERFORGE\ARTIFACT_MANAGER\src\index.ts` & `C:\Users\blago\Desktop\AETHERFORGE\ARTIFACT_MANAGER\README.md` |
 | **Execution Audit Log** | SHA-256 hash-chained append-only tool execution audit trail (`EngineeringExecutionAuditLog`) | `C:\Users\blago\Desktop\AETHERFORGE\EXECUTION_AUDIT\src\index.ts` & `C:\Users\blago\Desktop\AETHERFORGE\EXECUTION_AUDIT\README.md` |
 | **Runtime Verification Suite** | Executable Vitest suite testing all 11 capabilities, planning/execution separation, direct gateway bypass rejection, human approval grants, sandbox traversal blocking, and automatic checkpoint rollback | `C:\Users\blago\Desktop\AETHERFORGE\ENGINEERING_RUNTIME\tests\engineering-runtime.test.ts` |
+
+
+---
+
+## 11. Audio, VST3 & Multi-DAW Domain Engineering Index (Chief Audio Systems Architect Baseline)
+
+| Artifact | Purpose | Path |
+| :--- | :--- | :--- |
+| **Audio Domain Architecture** | Formal Three-Plane Audio Separation Law (Plane 1 AI Reasoning vs. Plane 2 Control/DAW Orchestration vs. Plane 3 Real-Time DSP Execution) and Subsystem A/B/C specifications | `C:\Users\blago\Desktop\AETHERFORGE\AUDIO_DOMAIN_ARCHITECTURE.md` |
+| **DSP Engine (Subsystem A)** | Reusable 64-bit float audio ingestion, RBJ Direct Form II Transposed Biquad filter, soft-knee compressor, transient shaper, brickwall true-peak limiter, composable DSP pipeline, RIFF WAV Float32 codec, and ITU-R BS.1770-4 analyzer | `C:\Users\blago\Desktop\AETHERFORGE\DSP_ENGINE\src\index.ts` & `C:\Users\blago\Desktop\AETHERFORGE\DSP_ENGINE\README.md` |
+| **VST3 Engine (Subsystem B)** | Reusable VST3 `IAudioProcessor` / `IEditController` split, normalized $[0,1] \leftrightarrow$ plain parameter registry, sample-accurate automation queue, preset persistence (`Vst3PresetManager`), host compatibility harness, and C++20 lock-free template | `C:\Users\blago\Desktop\AETHERFORGE\VST3_ENGINE\src\index.ts`, `templates\AetherForgeVst3Template.h`, `README.md` |
+| **DAW Adapter Framework (Subsystem C)** | Capability-negotiated multi-DAW adapter registry (`IDawAdapter`), FL Studio 2025 production adapter (`FlStudio2025DomainAdapter`), replaceable Cockos REAPER adapter (`ReaperRppDomainAdapter`), routing graph cycle detector, and MIDI pattern transformer | `C:\Users\blago\Desktop\AETHERFORGE\DAW_ADAPTER_FRAMEWORK\src\index.ts` & `C:\Users\blago\Desktop\AETHERFORGE\DAW_ADAPTER_FRAMEWORK\README.md` |
+| **Audio Test Framework** | Phase-cancellation null test ($\le -120\text{ dBFS}$), real-time callback WCET deadline profiler, and comprehensive Vitest verification suite across Subsystems A, B, and C | `C:\Users\blago\Desktop\AETHERFORGE\AUDIO_TEST_FRAMEWORK\src\index.ts` & `C:\Users\blago\Desktop\AETHERFORGE\AUDIO_TEST_FRAMEWORK\tests\audio-domain.test.ts` |
+| **Domain Knowledge Packs** | Epistemically tagged (`verified_facts`, `engineering_recommendations`, `unverified_assumptions`) audio/VST3/FL Studio 2025 knowledge corpus | `C:\Users\blago\Desktop\AETHERFORGE\DOMAIN_KNOWLEDGE_PACKS\audio-domain-knowledge-pack.json` & `README.md` |

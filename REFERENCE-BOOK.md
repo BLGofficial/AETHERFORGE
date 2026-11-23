@@ -155,3 +155,12 @@
 - `PERMISSION_SYSTEM/src/index.ts`: Per-agent tool allowlists, Action Tier enforcement, fenced path-lease glob containment, and single-use human `ApprovalGrant` verification.
 - `ARTIFACT_MANAGER/src/index.ts`: Content-addressable SHA-256 artifact registration and tamper verification.
 - `EXECUTION_AUDIT/src/index.ts`: SHA-256 hash-chained immutable execution audit log.
+
+
+### Audio, VST3 & Multi-DAW Domain Engineering Deliverables (Chief Audio Systems Architect Baseline)
+- `AUDIO_DOMAIN_ARCHITECTURE.md`: Three-Plane Audio Separation Law (Plane 1 AI Reasoning, Plane 2 Control/DAW Orchestration, Plane 3 Real-Time DSP Execution) and modular architecture for Subsystems A, B, and C.
+- `DSP_ENGINE/src/index.ts`: Reusable 64-bit float audio buffers, RBJ Biquad filter (`LOWPASS`, `HIGHPASS`, `BANDPASS`, `NOTCH`, `PEAKING_EQ`, `LOW_SHELF`, `HIGH_SHELF`), soft-knee compressor, transient shaper, brickwall limiter, composable dry/wet pipeline, Float32 WAV codec, and ITU-R BS.1770-4 analyzer.
+- `VST3_ENGINE/src/index.ts` & `VST3_ENGINE/templates/AetherForgeVst3Template.h`: Reusable VST3 parameter registry, `Vst3EditController` / `Vst3AudioProcessor` separation, `Vst3PresetManager`, `Vst3HostCompatibilityHarness`, and C++20 lock-free processor template.
+- `DAW_ADAPTER_FRAMEWORK/src/index.ts`: Multi-DAW `DawCapabilityRegistry`, `FlStudio2025DomainAdapter` (read-only `.flp` inspection, Python MIDI Controller script generation, and strict refusal of undocumented `.flp` mutation), replaceable `ReaperRppDomainAdapter`, track routing DAG validator, and MIDI pattern transformer.
+- `AUDIO_TEST_FRAMEWORK/src/index.ts` & `AUDIO_TEST_FRAMEWORK/tests/audio-domain.test.ts`: Phase-cancellation null test, real-time WCET profiler, and automated Vitest suite.
+- `DOMAIN_KNOWLEDGE_PACKS/audio-domain-knowledge-pack.json`: Evidence-cited audio/VST3/DAW knowledge pack.

@@ -27,6 +27,10 @@
     "PERMISSION_SYSTEM/**/*.ts",
     "ARTIFACT_MANAGER/**/*.ts",
     "EXECUTION_AUDIT/**/*.ts",
-    "ENGINEERING_RUNTIME/**/*.ts"
+    "ENGINEERING_RUNTIME/**/*.ts",
+    "DSP_ENGINE/**/*.ts",
+    "VST3_ENGINE/**/*.ts",
+    "DAW_ADAPTER_FRAMEWORK/**/*.ts",
+    "AUDIO_TEST_FRAMEWORK/**/*.ts"
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "packId": "DKP-AUDIO-VST3-DAW-V1",
+  "version": "1.0.0",
+  "domain": "AUDIO_VST3_DAW_ENGINEERING",
+  "entries": [
+    {
+      "entryId": "DKP-DSP-001",
+      "subsystem": "SUBSYSTEM_A_AUDIO_DSP",
+      "title": "Direct Form II Transposed Biquad & IEEE 754 Denormal Flushing",
+      "epistemicTag": "verified_facts",
+      "statement": "Direct Form II Transposed biquad filters minimize floating-point accumulation overflow at low cutoff frequencies; flushing subnormals (< 1e-15) to 0.0 prevents x86/x64 CPU microcode stalls during reverb and filter decay tails.",
+      "provenance": {
+        "sourceUri": "file:///C:/Users/blago/Desktop/AETHERFORGE/DSP_ENGINE/src/index.ts",
+        "sha256Prefix": "VERIFIED_ON_DISK",
+        "authority": "RBJ Audio EQ Cookbook & IEEE 754-2019"
+      }
+    },
+    {
+      "entryId": "DKP-VST3-001",
+      "subsystem": "SUBSYSTEM_B_VST3",
+      "title": "Steinberg VST3 Real-Time Audio Thread Separation (ADR-0008)",
+      "epistemicTag": "engineering_recommendations",
+      "statement": "Never invoke LLM APIs, network sockets, mutex locks, or heap allocations inside IAudioProcessor::process(). All AI copilot parameter suggestions must originate in Plane 1, pass through IEditController in Plane 2, and enter Plane 3 via lock-free std::atomic or SPSC parameter queues.",
+      "provenance": {
+        "sourceUri": "file:///C:/Users/blago/Desktop/AETHERFORGE/docs/adr/0008-realtime-vst3-separation.md",
+        "sha256Prefix": "ADR0008",
+        "authority": "Steinberg VST3 SDK 3.7 Technical Documentation"
+      }
+    },
+    {
+      "entryId": "DKP-DAW-001",
+      "subsystem": "SUBSYSTEM_C_AI_DAW",
+      "title": "FL Studio 2025 (25.1.6.4997) Workstation Binary & .flp Chunk Provenance",
+      "epistemicTag": "verified_facts",
+      "statement": "Workstation FL64.exe (25.1.6.4997, SHA-256 prefix 273ECDC1C2421628) stores projects in FLhd (6-byte payload: format, channelCount, ppq) and FLdt event streams where event 0xC7 (199) encodes the ASCII/UTF-8 creator version.",
+      "provenance": {
+        "sourceUri": "file:///C:/Users/blago/Desktop/AETHERFORGE/docs/daws/fl-studio-2025-qualification.md",
+        "sha256Prefix": "273ECDC1C2421628",
+        "authority": "Workstation Binary Probe & Factory Demo .flp Verification"
+      }
+    },
+    {
+      "entryId": "DKP-DAW-002",
+      "subsystem": "SUBSYSTEM_C_AI_DAW",
+      "title": "Unverified Internal FL Studio Undocumented Event IDs",
+      "epistemicTag": "unverified_assumptions",
+      "statement": "Proprietary plugin state blobs inside FLdt events lack a public write specification from Image-Line; direct in-place .flp binary mutation is classified as UNSUPPORTED_FORBIDDEN to prevent silent project corruption.",
+      "provenance": {
+        "sourceUri": "file:///C:/Users/blago/Desktop/AETHERFORGE/docs/adr/0009-fl-studio-2025-first.md",
+        "sha256Prefix": "ADR0009",
+        "authority": "AETHER FORGE Governance Policy"
+      }
+    }
+  ]
+}
