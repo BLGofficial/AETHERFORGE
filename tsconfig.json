@@ -21,6 +21,12 @@
     "WORKFLOW_SCHEMA/**/*.ts",
     "WORKFLOW_ENGINE/**/*.ts",
     "ORCHESTRATION_ENGINE/**/*.ts",
-    "WORKFLOW_TESTS/**/*.ts"
+    "WORKFLOW_TESTS/**/*.ts",
+    "TOOL_GATEWAY/**/*.ts",
+    "EXECUTION_ADAPTERS/**/*.ts",
+    "PERMISSION_SYSTEM/**/*.ts",
+    "ARTIFACT_MANAGER/**/*.ts",
+    "EXECUTION_AUDIT/**/*.ts",
+    "ENGINEERING_RUNTIME/**/*.ts"
   ]
 }

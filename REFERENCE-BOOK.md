@@ -146,3 +146,12 @@
 - `WORKFLOW_ENGINE/src/index.ts`: Executable `DurableWorkflowEngine` with disk persistence, crash-safe `resumeFromDiskCheckpoint()`, retry, LIFO rollback, human approval gates, and idempotency deduplication.
 - `ORCHESTRATION_ENGINE/src/index.ts`: Executable `MultiAgentOrchestrationEngine` and `lowerCompiledSpecToWorkflowDefinition()` lowering `CompiledEngineeringSpecification` bundles into durable multi-agent workflows.
 - `WORKFLOW_TESTS/workflow-orchestration.test.ts`: Automated Vitest suite verifying all topologies, crash/restart resume, failed agent retry & LIFO rollback, duplicate execution deduplication, and concurrent conflict rejection.
+
+
+### Engineering Execution Runtime & Controlled Tool Gateway Deliverables (Principal Software Engineering Automation Architect Baseline)
+- `ENGINEERING_RUNTIME/src/index.ts` & `ENGINEERING_RUNTIME/tests/engineering-runtime.test.ts`: Two-phase Planning (`stageToolProposal`) vs. Execution (`executeStagedProposal`) runtime and automated Vitest verification suite.
+- `TOOL_GATEWAY/src/index.ts`, `tool-registry.ts`, `tool-schemas.ts`, & `tool-schemas.json`: Non-bypassable `ControlledToolGateway` with 100% Zod input/output validation, pre-execution file checkpoint snapshots, automatic rollback on error, and single-use HMAC `GatewayExecutionSeal` tokens.
+- `EXECUTION_ADAPTERS/src/index.ts`: Sandboxed execution adapters for all 11 capabilities (`repo.inspect`, `file.create_or_modify`, `code.generate`, `code.review`, `git.execute`, `build.execute`, `test.execute`, `dependency.manage`, `docs.generate`, `api.integrate`, `deploy.prepare`).
+- `PERMISSION_SYSTEM/src/index.ts`: Per-agent tool allowlists, Action Tier enforcement, fenced path-lease glob containment, and single-use human `ApprovalGrant` verification.
+- `ARTIFACT_MANAGER/src/index.ts`: Content-addressable SHA-256 artifact registration and tamper verification.
+- `EXECUTION_AUDIT/src/index.ts`: SHA-256 hash-chained immutable execution audit log.

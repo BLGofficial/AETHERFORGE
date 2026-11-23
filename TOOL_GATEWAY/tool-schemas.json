@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aetherforge.internal/schemas/v1/tool-schemas.json",
+  "title": "AETHER FORGE Controlled Engineering Tool Schemas (v1.0.0)",
+  "tools": [
+    { "toolId": "repo.inspect", "minimumActionTier": "0", "requiresWriteLease": false, "requiresHumanApproval": false },
+    { "toolId": "file.create_or_modify", "minimumActionTier": "1", "requiresWriteLease": true, "requiresHumanApproval": false },
+    { "toolId": "code.generate", "minimumActionTier": "1", "requiresWriteLease": true, "requiresHumanApproval": false },
+    { "toolId": "code.review", "minimumActionTier": "0", "requiresWriteLease": false, "requiresHumanApproval": false },
+    { "toolId": "git.execute", "minimumActionTier": "0", "requiresWriteLease": false, "requiresHumanApproval": false },
+    { "toolId": "build.execute", "minimumActionTier": "1", "requiresWriteLease": false, "requiresHumanApproval": false },
+    { "toolId": "test.execute", "minimumActionTier": "0", "requiresWriteLease": false, "requiresHumanApproval": false },
+    { "toolId": "dependency.manage", "minimumActionTier": "2", "requiresWriteLease": true, "requiresHumanApproval": true },
+    { "toolId": "docs.generate", "minimumActionTier": "1", "requiresWriteLease": true, "requiresHumanApproval": false },
+    { "toolId": "api.integrate", "minimumActionTier": "1", "requiresWriteLease": false, "requiresHumanApproval": false },
+    { "toolId": "deploy.prepare", "minimumActionTier": "2", "requiresWriteLease": true, "requiresHumanApproval": true }
+  ]
+}
