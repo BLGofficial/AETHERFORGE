@@ -211,3 +211,12 @@ Direct empirical inspection of the Windows 11 workstation (`C:\Users\blago\Deskt
 | **Compatibility Matrix & Release Blockers** | Verified host compatibility matrix and transparent external prerequisite blockers (`BLK-001..004`) | `C:\Users\blago\Desktop\AETHERFORGE\SYSTEM_COMPATIBILITY_MATRIX.md` & `RELEASE_BLOCKERS.md` |
 | **Production-Readiness Audit** | Complete 14-point audit and Final Acceptance Matrix issuing the evidence-justified **`CONDITIONALLY READY`** verdict | `C:\Users\blago\Desktop\AETHERFORGE\PRODUCTION_READINESS_AUDIT.md` |
 | **Production Operations & Reference Manuals** | Deployment, Installation, Configuration, Operator Manual, Developer Reference Book, Architecture Reference Book, Troubleshooting Guide, and Master Release Report | `PRODUCTION_DEPLOYMENT_GUIDE.md`, `INSTALLATION_GUIDE.md`, `CONFIGURATION_GUIDE.md`, `OPERATOR_MANUAL.md`, `DEVELOPER_REFERENCE_BOOK.md`, `ARCHITECTURE_REFERENCE_BOOK.md`, `TROUBLESHOOTING_GUIDE.md`, `RELEASE_REPORT.md` |
+
+
+---
+
+## 16. Flagship Products Built Inside AETHER FORGE
+
+| Product | Deliverable Path | Binary / Verification Proof |
+| :--- | :--- | :--- |
+| **Aether Punch (`v1.0.0`)** — Native C++20 VST3 Transient Shaper, Analog `tanh` Saturator & True-Peak Limiter | `C:\Users\blago\Desktop\AETHERFORGE\products\aether-punch-vst3\dist\AetherPunch.vst3` | Windows x64 standalone `.vst3` (`788,992` bytes, SHA-256 `9FA24B84C509D2A9`), `AetherPunchCoreTests.exe` (`4/4` DSP suites PASS), **`pluginval.exe --strictness-level 10` `SUCCESS`**, certified by `AGT-19`. |

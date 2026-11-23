@@ -3,7 +3,7 @@
   "compilerPath": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe",
   "binaryPath": "C:\\Users\\blago\\Desktop\\AETHERFORGE\\artifacts\\native\\AetherForge.WindowsWorker.exe",
   "binaryBytes": 6144,
-  "binarySha256": "58ac1c198f88f29d583fed5ae3dd06efc88854f0bc83580082f049b1678e3449",
+  "binarySha256": "89e07eb3defcec99e0999888f0bde1909e7e06b6fedb352f004553c5acfc8bcf",
   "selfTestOutput": {
     "ok": true,
     "dpapiVerified": true,

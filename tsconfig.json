@@ -44,6 +44,7 @@
     "COMPONENT_LIBRARY/**/*.ts",
     "API_INTEGRATION/**/*.ts",
     "FRONTEND_APPLICATION/**/*.ts",
-    "E2E_UI_TESTS/**/*.ts"
+    "E2E_UI_TESTS/**/*.ts",
+    "products/**/*.ts"
   ]
 }
