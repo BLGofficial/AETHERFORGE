@@ -287,7 +287,25 @@ export class Vst3AudioProcessor {
     const ceilingDb = this.getPlainParam("ceilingDb");
     const mix = this.getPlainParam("mix");
 
-    const inMetrics = analyzeAudioBuffer(inputBuffer);
+    const computeQuickMeter = (buf: AudioBuffer64): { peakDbfs: number; lufs: number } => {
+      let peak = 0;
+      let sumSq = 0;
+      const total = Math.max(1, buf.channels.length * buf.frameCount);
+      for (let c = 0; c < buf.channels.length; c++) {
+        const ch = buf.channels[c]!;
+        for (let i = 0; i < buf.frameCount; i++) {
+          const s = ch[i]!;
+          const a = Math.abs(s);
+          if (a > peak) peak = a;
+          sumSq += s * s;
+        }
+      }
+      const peakDbfs = peak <= 1e-7 ? -144.0 : Math.max(-144.0, 20 * Math.log10(peak));
+      const lufs = Math.max(-144.0, -0.691 + 10 * Math.log10(Math.max(1e-14, sumSq / total)));
+      return { peakDbfs: Number(peakDbfs.toFixed(4)), lufs: Number(lufs.toFixed(4)) };
+    };
+
+    const inMeter = computeQuickMeter(inputBuffer);
 
     if (bypass) {
       const bypassedOut = createAudioBuffer(
@@ -301,9 +319,9 @@ export class Vst3AudioProcessor {
         }
       }
       this.latestMeterSnapshot = {
-        inputPeakDbfs: inMetrics.samplePeakDbfs,
-        outputPeakDbfs: inMetrics.samplePeakDbfs,
-        integratedLufs: inMetrics.integratedLufs,
+        inputPeakDbfs: inMeter.peakDbfs,
+        outputPeakDbfs: inMeter.peakDbfs,
+        integratedLufs: inMeter.lufs,
         activeBypass: true,
       };
       return bypassedOut;
@@ -333,12 +351,12 @@ export class Vst3AudioProcessor {
 
     pipeline.prepare(this.sampleRateHz, Math.max(this.maxBlockSize, inputBuffer.frameCount), this.channelCount);
     const outBuf = pipeline.processBuffer(preGainBuf);
-    const outMetrics = analyzeAudioBuffer(outBuf);
+    const outMeter = computeQuickMeter(outBuf);
 
     this.latestMeterSnapshot = {
-      inputPeakDbfs: inMetrics.samplePeakDbfs,
-      outputPeakDbfs: outMetrics.samplePeakDbfs,
-      integratedLufs: outMetrics.integratedLufs,
+      inputPeakDbfs: inMeter.peakDbfs,
+      outputPeakDbfs: outMeter.peakDbfs,
+      integratedLufs: outMeter.lufs,
       activeBypass: false,
     };
 

@@ -27,6 +27,7 @@ Expected result: `tsc -p tsconfig.json --noEmit` exits `0`, `AetherForge.Windows
 
 ## 3. Launching the 11-Workspace Frontend & Control Plane
 ```powershell
-pnpm.cmd dev
+pnpm.cmd studio
 ```
-Access Workspaces `01`..`11` via `/workspaces/command-center` through `/workspaces/reference-library`.
+Open `http://127.0.0.1:4173/workspaces/command-center` (Workspaces `01`..`11` through `/workspaces/reference-library`).
+(For the standalone Phase 04 minimal control plane, run `pnpm.cmd dev`.)

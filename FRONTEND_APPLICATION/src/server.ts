@@ -28,6 +28,16 @@ async function readRequestBody(req: IncomingMessage): Promise<Record<string, unk
   return obj;
 }
 
+function sendRedirect(res: ServerResponse, location: string): void {
+  res.writeHead(303, { location });
+  res.end();
+}
+
+function isBrowserFormRequest(req: IncomingMessage): boolean {
+  const ct = req.headers["content-type"] ?? "";
+  return ct.includes("application/x-www-form-urlencoded");
+}
+
 function sendJson(res: ServerResponse, status: number, payload: unknown): void {
   const body = JSON.stringify(payload);
   res.writeHead(status, {
@@ -86,6 +96,10 @@ export function createAetherForgeFrontendServer(controller: AetherForgeApplicati
           inputType: (body["inputType"] ?? "PRODUCT_DIRECTION") as CompilerInputType,
           naturalLanguagePrompt: String(body["naturalLanguagePrompt"] ?? "Build governed software"),
         });
+        if (isBrowserFormRequest(req)) {
+          sendRedirect(res, "/workspaces/project-creation-studio");
+          return;
+        }
         sendJson(res, 201, { ok: true, specification: spec });
         return;
       }
@@ -100,6 +114,10 @@ export function createAetherForgeFrontendServer(controller: AetherForgeApplicati
           includeTier2ApprovalStep: includeApproval,
           requesterPrincipalId: String(body["requesterPrincipalId"] ?? "human-operator-01"),
         });
+        if (isBrowserFormRequest(req)) {
+          sendRedirect(res, "/workspaces/workflow-studio");
+          return;
+        }
         sendJson(res, 201, { ok: true, checkpoint });
         return;
       }
@@ -113,6 +131,10 @@ export function createAetherForgeFrontendServer(controller: AetherForgeApplicati
           decision: body["decision"] === "REJECTED" ? "REJECTED" : "APPROVED",
           approverPrincipalId: String(body["approverPrincipalId"] ?? "human-reviewer-02"),
         });
+        if (isBrowserFormRequest(req)) {
+          sendRedirect(res, "/workspaces/workflow-studio");
+          return;
+        }
         sendJson(res, 200, { ok: true, checkpoint });
         return;
       }
@@ -137,6 +159,10 @@ export function createAetherForgeFrontendServer(controller: AetherForgeApplicati
           rawInput,
           rationale: String(body["rationale"] ?? "Operator Engineering Console invocation"),
         });
+        if (isBrowserFormRequest(req)) {
+          sendRedirect(res, "/workspaces/engineering-console");
+          return;
+        }
         sendJson(res, outcome.ok ? 200 : 400, outcome);
         return;
       }
@@ -145,6 +171,10 @@ export function createAetherForgeFrontendServer(controller: AetherForgeApplicati
       if (method === "POST" && pathname === "/api/v1/ui/knowledge/search") {
         const body = await readRequestBody(req);
         const hits = controller.searchAuthoritativeKnowledge(String(body["query"] ?? "VST3"));
+        if (isBrowserFormRequest(req)) {
+          sendRedirect(res, "/workspaces/knowledge-center");
+          return;
+        }
         sendJson(res, 200, { ok: true, hits });
         return;
       }
@@ -156,6 +186,10 @@ export function createAetherForgeFrontendServer(controller: AetherForgeApplicati
           dawId: String(body["dawId"] ?? "cockos-reaper"),
           projectPathOrPayload: String(body["projectPathOrPayload"] ?? ""),
         });
+        if (isBrowserFormRequest(req)) {
+          sendRedirect(res, "/workspaces/integration-center");
+          return;
+        }
         sendJson(res, 200, { ok: true, report });
         return;
       }
@@ -165,6 +199,10 @@ export function createAetherForgeFrontendServer(controller: AetherForgeApplicati
         const body = await readRequestBody(req);
         const active = body["active"] === true || body["active"] === "true";
         const result = controller.setEmergencyStop(active, String(body["reason"] ?? "Operator intervention"));
+        if (isBrowserFormRequest(req)) {
+          sendRedirect(res, "/workspaces/system-monitor");
+          return;
+        }
         sendJson(res, 200, { ok: true, ...result });
         return;
       }

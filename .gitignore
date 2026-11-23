@@ -9,3 +9,5 @@ coverage/
 local-workspace/
 0.26.0
 
+
+.aetherforge/

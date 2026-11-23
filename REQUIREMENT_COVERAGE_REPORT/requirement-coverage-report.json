@@ -47,7 +47,7 @@
     {
       "discipline": "PERFORMANCE_TESTING",
       "passed": true,
-      "metricsSummary": "Real-time callback avg = 239.46 us / deadline = 5333.33 us (utilization = 4.49% < 30%).",
+      "metricsSummary": "Real-time callback avg = 253.05 us / deadline = 5333.33 us (utilization = 4.74% < 30%).",
       "findings": []
     },
     {
@@ -310,9 +310,9 @@
       "evidenceArtifact": {
         "evidenceId": "EVID-0007",
         "relativeArtifactPath": "VST3_ENGINE/src/index.ts",
-        "artifactDiskSha256": "AA230F3C256A50BE646C6A7F405CA6A4DBA7DC2AD6D4F0DA358E685922CEF362",
+        "artifactDiskSha256": "D68D6BDC7F247EF36B8FD10BCD7B3DBD89D6217B0358C6A3A6ABEE6B5E432722",
         "testFileDiskSha256": "6D11080A06FA285C062DFA932C0B14A3CA3ACB0EA36D1674C42F13D89611AD72",
-        "ledgerEntryHash": "C3E274033211456C5DA981501717306E7B4385578DC72097F3F0CE7EE02036C7"
+        "ledgerEntryHash": "25C3C39E0C10A8CAF99EFBDBF69A63F01A9D25012C9665980E83F0718AC4F44B"
       },
       "passFailStatus": "PASS",
       "knownLimitations": [
@@ -346,7 +346,7 @@
         "relativeArtifactPath": "DAW_ADAPTER_FRAMEWORK/src/index.ts",
         "artifactDiskSha256": "D6DE8177476093D27D5D5D1DC8BE01C3A66C446FFD7EE011E7AA7AEF5D04E251",
         "testFileDiskSha256": "138A32462298CEEFEF94F7FA81A01B67DE83E2E1EF477CD73EB0DF163B4C3C31",
-        "ledgerEntryHash": "90D86629BD725509A6AC9BFA6EA37C4C068BDBDB352BA9C3594BBDC6AAC48BB7"
+        "ledgerEntryHash": "F7736BB50B0E4348C1B5CD6755A17D7E0FA566156486555D1114555FE3EB1F9A"
       },
       "passFailStatus": "PASS",
       "knownLimitations": [
@@ -380,7 +380,7 @@
         "relativeArtifactPath": "services/artifact-registry/src/index.ts",
         "artifactDiskSha256": "B90FEB52912DCB7F6BD26EE52A29BBEFE46D09C2E1EAD2E23C7C8DEFA519F512",
         "testFileDiskSha256": "635E9278F1D13D0AAA6C6426EFBDE84C8286E83157E9445B9EBBE56431E35301",
-        "ledgerEntryHash": "D335411591EE0F0D175AD02B95F884196435FE474848EF6D2B113ABB42EBE0B5"
+        "ledgerEntryHash": "ADD4E46EA6DB0EAF9CA03635D26ECFAFD0543B272E16365D50F0A1EC09DC72F2"
       },
       "passFailStatus": "PASS",
       "knownLimitations": [
@@ -389,5 +389,5 @@
       "verifiedAt": "2026-11-23T02:40:00.000Z"
     }
   ],
-  "evidenceLedgerHeadHash": "D335411591EE0F0D175AD02B95F884196435FE474848EF6D2B113ABB42EBE0B5"
+  "evidenceLedgerHeadHash": "ADD4E46EA6DB0EAF9CA03635D26ECFAFD0543B272E16365D50F0A1EC09DC72F2"
 }

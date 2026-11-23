@@ -4,7 +4,7 @@
 - **Independent Verifier Authority:** `AGT-19` (Tier 0 Separation-of-Duty Gatekeeper)
 - **All 12 QA Disciplines Passed:** `true`
 - **Requirement Coverage Rate:** `100.00%` (`9/9` PASS)
-- **Evidence Ledger Head SHA-256:** `D335411591EE0F0D175AD02B95F884196435FE474848EF6D2B113ABB42EBE0B5`
+- **Evidence Ledger Head SHA-256:** `ADD4E46EA6DB0EAF9CA03635D26ECFAFD0543B272E16365D50F0A1EC09DC72F2`
 
 ---
 
@@ -18,7 +18,7 @@
 | `END_TO_END_TESTING` | `PASS` | Vertical slice (Brief -> Plan -> OPA -> Approval -> Execution -> Dual-Control v1.0.0 Promotion) verified. |
 | `STATIC_ANALYSIS` | `PASS` | 0 TypeScript 'any' tokens in contracts; 0 real-time allocation/lock tokens in C++20 DSP core. |
 | `SECURITY_ANALYSIS` | `PASS` | 0 leaked secrets across runtime engines; 9 hash-chained evidence records verified. |
-| `PERFORMANCE_TESTING` | `PASS` | Real-time callback avg = 239.46 us / deadline = 5333.33 us (utilization = 4.49% < 30%). |
+| `PERFORMANCE_TESTING` | `PASS` | Real-time callback avg = 253.05 us / deadline = 5333.33 us (utilization = 4.74% < 30%). |
 | `AGENT_BEHAVIOR_EVALUATION` | `PASS` | 100% enforcement of implementingAgentId !== 'AGT-19' separation of duty, fenced write globs, and epistemic quarantine. |
 | `WORKFLOW_CORRECTNESS_TESTING` | `PASS` | Disk WAL (.wal.jsonl) + checkpoint crash recovery, retry, LIFO rollback, and idempotency verified. |
 | `AUDIO_QUALITY_TESTING` | `PASS` | Null residual = -144 dBFS (bitIdentical=true); truePeak = -1.0705 dBTP <= -1.0 dBTP. |
@@ -88,7 +88,7 @@
 - **1. Expected Behavior:** Isolate Plane 3 real-time audio callback from Plane 2 controller/AI copilot with zero heap allocations, zero locks, and lossless preset persistence.
 - **2. Verification Method:** Disciplines: `[VST3_COMPATIBILITY_TESTING, STATIC_ANALYSIS, PERFORMANCE_TESTING]` | Oracle: `forbiddenRtTokens === 0 && hostTorturePassed === true && wcetUtilization < 0.30` | Suite: `tests/security/src/phase10-vst3-boundary.test.ts`
 - **3. Test Result:** `exitCode=0` (`15` assertions passed, `0` failed) — 0 forbidden allocation/lock tokens in C++20 core; passed block-size (1..4096) & sample-rate (44.1..96 kHz) host torture suite.
-- **4. Evidence Artifact:** `EVID-0007` | Artifact: `VST3_ENGINE/src/index.ts` (SHA-256: `AA230F3C256A50BE`) | Test SHA-256: `6D11080A06FA285C`
+- **4. Evidence Artifact:** `EVID-0007` | Artifact: `VST3_ENGINE/src/index.ts` (SHA-256: `D68D6BDC7F247EF3`) | Test SHA-256: `6D11080A06FA285C`
 - **5. Pass/Fail Status:** **`PASS`**
 - **6. Known Limitations:** Compiling a binary .vst3 DLL on host requires external C++20 compiler (cl.exe/clang++), C:\JUCE, C:\VST_SDK, and pluginval.exe.
 
